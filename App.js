@@ -1,28 +1,41 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import CatalogScreen from "./screens/CatalogScreen";
-import HomeScreen from "./screens/HomeScreen";
-import ProfileScreen from "./screens/ProfileScreen";
+import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import LoginScreen from "./screens/LoginScreen";
-import { useState } from "react";
+import HomeScreen from "./src/screens/HomeScreen";
+import CatalogScreen from "./src/screens/CatalogScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+import wildRentLogo from "./assets/images/WildRentLogo.png";
+
+const Stack = createStackNavigator();
 
 const TabBottom = createBottomTabNavigator();
 
 export default function App() {
-
-  const [isLogged, setIsLogged] = useState(false);
-
   return (
-
-    
     <View style={styles.container}>
-     
+      <View style={styles.headerContainer}>
+        <View style={styles.headerLogoContainer}>
+          <Image source={wildRentLogo} style={styles.headerLogo} />
+        </View>
+        <View style={styles.headerIconContainer}>
+        <Ionicons name="md-basket" style={styles.headerIcon} />
+      </View>
+        </View>
+       
       <NavigationContainer>
-   
         <TabBottom.Navigator
           screenOptions={({ route }) => ({
+            headerShown: false,
+            tabBarStyle: {
+              backgroundColor: "#fff",
+              height: 60,
+            },
+            tabBarItemStyle: {
+              backgroundColor: "#fff",
+              padding: 5,
+            },
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
 
@@ -38,7 +51,7 @@ export default function App() {
 
               return <Ionicons name={iconName} size={size} color={color} />;
             },
-            tabBarActiveTintColor: "blue",
+            tabBarActiveTintColor: "#0d7ebf",
             tabBarInactiveTintColor: "gray",
           })}
         >
@@ -57,4 +70,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  headerContainer: {
+    backgroundColor: "#9DBDD3",
+    height: 100,
+
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    padding: 15,
+    paddingTop: 50
+  },
+  headerLogoContainer: {
+    flex: 1,
+    height: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  headerIconContainer :{
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  headerIcon : {
+    fontSize: 35
+  }
 });
