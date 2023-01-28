@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { ImageBackground, StatusBar, StyleSheet, Text, View } from "react-native";
@@ -6,20 +6,27 @@ import home from "../../assets/images/home.jpg";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomButton from "../components/CustomButton/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../context/AuthContext";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
+
+  const {logged, setLogged} = useContext(AuthContext);
 
   async function getToken() {
     const token = await AsyncStorage.getItem("@token");
     console.log('====================================');
     console.log('le token dans la home ', token);
+    console.log('le token dans la home ', logged);
     console.log('====================================');
-    if(token != null){
+    if(logged){
       showMessage({
         message: "Bienvenue",
         type: "info",
       });
+    }
+    if(token === null){
+      setLogged(false);
     }
   };
 
