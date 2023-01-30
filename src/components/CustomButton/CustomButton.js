@@ -1,10 +1,14 @@
 import { Text, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-const CustomButton = ({onPress, text, type, size}) => {
+const CustomButton = ({onPress, text, type, size, icon, nameIcon, colorIcon}) => {
   return (
     <Pressable onPress={onPress} style={styles.container}>
-        <Text style={[styles.button, styles[`btn_${type}`], styles[`btn_${parseInt(size)}`] ]}>{text}</Text>
+        <Text style={[styles.button, styles[`btn_${type}`], styles[`btn_${parseInt(size)}`] ]}>
+            {text}
+            {icon ? <Ionicons name={nameIcon} size={32} color={colorIcon} /> : ''}
+        </Text>
     </Pressable >
   )
 }
@@ -12,6 +16,9 @@ const CustomButton = ({onPress, text, type, size}) => {
 const styles = StyleSheet.create({
     container: {
         marginTop: 20,
+    },
+    btn_20: {
+        width: 20
     },
     btn_200: {
         width: 200
@@ -55,6 +62,12 @@ const styles = StyleSheet.create({
     btn_SECONDARY: {
         backgroundColor: '#999999',
         color: '#fff',
+    },
+    btn_LIGHT: {
+        backgroundColor: 'transparent',
+        color: '#fff',
+        borderColor: "#fff",
+        borderWidth: 2,
     },
 })
 
