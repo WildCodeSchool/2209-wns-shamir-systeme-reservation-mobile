@@ -13,7 +13,7 @@ import SignIn from '../../screens/SignIn/SignIn';
 const TabBottom = createBottomTabNavigator();
 
 const Navigation = () => {
-    // ------ Il faut enregistrer si on veut voir les changements de la nav (si connecté ou non) ------- \\
+    // ------- Il faut enregistrer si on veut voir les changements de la nav (si connecté ou non) ------- \\
     const [isSignedIn, setSignedIn] = useState(false);
     
     async function getToken() {
