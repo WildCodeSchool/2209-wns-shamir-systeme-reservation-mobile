@@ -24,7 +24,7 @@ import ProductCard from "../components/ProductCard";
 
 export default function HomeScreen({navigation}) {
   
-
+//
   return (
     <ScrollView>
       <View style={styles.container}>
