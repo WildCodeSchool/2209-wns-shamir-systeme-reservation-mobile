@@ -5,8 +5,8 @@ import React, { useContext, useEffect } from 'react'
 import { AuthContext } from '../../context/AuthContext';
 import { useForm } from "react-hook-form";
 import { LinearGradient } from 'expo-linear-gradient';
-import CustomInput from '../../components/CustomInput/CustomInput';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomInput from '../../components/CustomInput';
+import CustomButton from '../../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
 
 const SignIn = () => {
@@ -52,7 +52,7 @@ const SignIn = () => {
                         <View>
                             <Text style={styles.label}>Mot de passe</Text>
                         </View>
-                        <CustomInput label="Mot de passe" size="250" control={control} name="password" placeholder="Mot de passe" type="text" rules={{required: "Le mot de passe est requis", minLength: {value: 5, message: "Le mot de passe doit contenir au minimum 5 caractères."}, pattern: {value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{5,}$/, message: "Le mot de passe doit contenir au minimum 5 caractères, minimum une lettre majuscule, une lettre minuscule, un chiffre et un caractere special"}}} secureTextEntry={true}/>
+                        <CustomInput label="Mot de passe" size="250" control={control} name="password" placeholder="Mot de passe" type="text" rules={{required: "Le mot de passe est requis", minLength: {value: 5, message: "Le mot de passe doit contenir au minimum 5 caractères."}}} secureTextEntry={true}/>
 
                         {errorCreate ? <Text style={{color: 'red', width: 250}}>{errorCreate}</Text> : ''}
 
