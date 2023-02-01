@@ -4,31 +4,36 @@ import { CREATE_USER, GET_TOKEN } from '../Tools/Mutation';
 import { useMutation } from "@apollo/client";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet } from 'react-native';
+import IUserProps from '../interfaces/IUserProps';
+import ISigninProps from '../interfaces/ISignInProps';
+import IAuthContextProps from '../interfaces/IAuthContextProps';
+import { setToken } from '../stores/tokenReducer';
+import { useDispatch } from 'react-redux';
 
-export const AuthContext = createContext();
+export const AuthContext = createContext<IAuthContextProps | null>(null);
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({children}: any) => {
     const navigation = useNavigation();
-
-    const [logged, setLogged] = useState(false);
+    
+    const [logged, setLogged] = useState<boolean>(false);
+    const [errorCreate, setErrorCreate] = useState<string>('');
+    const [animateSpin, setAnimateSpin] = useState<boolean>(false);
+    const [styleSpin, setStyleSpin]     = useState({});
+    const [sizeSpin, setSizeSpin]       = useState<number>(0);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setErrorCreate('');
     }, [])
 
-    //msg erreur 
-    const [errorCreate, setErrorCreate] = useState('');
-    const [animateSpin, setAnimateSpin] = useState(false);
-    const [styleSpin, setStyleSpin]     = useState('');
-    const [sizeSpin, setSizeSpin]       = useState(0);
-
     const [getToken] = useMutation(GET_TOKEN);
     const [createUser] = useMutation(CREATE_USER);
 
-    const handleToken = (data) => {
+    const handleToken = (data: ISigninProps): void => {
         getToken({ variables: { password: data.password, email: data.email } })
         .then(async ({ data }) => {
             await AsyncStorage.setItem("@token", data.getToken);
+            dispatch(setToken(data.getToken));
             setLogged(true);
             setAnimateSpin(true);
             setSizeSpin(80);
@@ -47,7 +52,7 @@ export const AuthProvider = ({children}) => {
         });
     }
 
-    const handleRegister = (data) => {
+    const handleRegister = (data: IUserProps): void => {
         const userEmail = data.email;
         const userPassword = data.password;
         if(userPassword === data.passwordConfirm){
@@ -59,7 +64,7 @@ export const AuthProvider = ({children}) => {
                 console.log('userEmail => ', userEmail);
                 console.log('userPassword => ', userPassword);
                 console.log('====================================');
-                const userData = {password: userPassword, email: userEmail}
+                const userData = {email: userEmail, password: userPassword}
                 handleToken(userData);
             })
             .catch((e) => {

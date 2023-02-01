@@ -21,12 +21,11 @@ const ProductCard = ({ product }) => {
 const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
-    width: "25%",
+    // width: "25%",
     padding: 15,
     marginHorizontal: 10,
     marginTop: 20,
     marginVertical: 10,
-    padding: 15,
     backgroundColor: "#fff",
     width: 300,
     borderRadius: 10,

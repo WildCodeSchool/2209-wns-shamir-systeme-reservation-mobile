@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text } from "react-native";
+import {View, Text, StyleSheet } from "react-native";
 
 
 const FilterProduct = () => {
@@ -11,7 +11,7 @@ const FilterProduct = () => {
 };
 
 const styles = StyleSheet.create({
- 
+  filterContainer: {},
 });
 
 export default FilterProduct;
