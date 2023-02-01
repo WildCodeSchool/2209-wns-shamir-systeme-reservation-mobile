@@ -1,8 +1,10 @@
 import { Text, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import ICustomeButtonProp from '../interfaces/ICustomeButtonProp';
 
-const CustomButton = ({onPress, text, type, size, icon, nameIcon, colorIcon}) => {
+const CustomButton = ({onPress, text, type, size, icon, nameIcon, colorIcon}: ICustomeButtonProp) => {
+    
   return (
     <Pressable onPress={onPress} style={styles.container}>
         <Text style={[styles.button, styles[`btn_${type}`], styles[`btn_${parseInt(size)}`] ]}>

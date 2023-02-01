@@ -1,12 +1,12 @@
-import Logo from '../../../assets/images/512.png';
-import home from "../../../assets/images/home.jpg";
+import Logo from '../../assets/images/512.png';
+import home from "../../assets/images/home.jpg";
 import { View, Text, ScrollView, Image, StyleSheet, useWindowDimensions, ImageBackground, ActivityIndicator} from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import CustomInput from '../../components/CustomInput/CustomInput';
+import CustomInput from '../components/CustomInput';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from "react-hook-form";
-import { AuthContext } from '../../context/AuthContext';
-import CustomButton from '../../components/CustomButton/CustomButton';
+import { AuthContext } from '../context/AuthContext';
+import CustomButton from '../components/CustomButton';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const Register = () => {

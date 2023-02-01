@@ -2,33 +2,20 @@ import React, { useContext, useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import HomeScreen from "../../screens/HomeScreen";
-import ProfileScreen from "../../screens/ProfileScreen";
+import HomeScreen from "../screens/HomeScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import CatalogScreen from '../../screens/CatalogScreen';
-import { AuthProvider } from '../../context/AuthContext';
-import Register from '../../screens/Register/Register';
-import SignIn from '../../screens/SignIn/SignIn';
+import CatalogScreen from '../screens/CatalogScreen';
+import { AuthProvider } from '../context/AuthContext';
+import Register from '../screens/Register';
+import SignIn from '../screens/SignIn';
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores';
 
 const TabBottom = createBottomTabNavigator();
 
 const Navigation = () => {
-    // ------- Il faut enregistrer si on veut voir les changements de la nav (si connecté ou non) ------- \\
-    const [isSignedIn, setSignedIn] = useState(false);
-    
-    async function getToken() {
-        const token = await AsyncStorage.getItem("@token");
-        console.log('token dans nav ', token);
-        if(token != null){
-            setSignedIn(true);
-        }else{
-            setSignedIn(false);
-        }
-    };
-    
-    useEffect(() => {
-        getToken();
-    }, [])
+    const token = useSelector((state: RootState) => state.token.jwt);
 
   return (
     <NavigationContainer>
@@ -69,7 +56,7 @@ const Navigation = () => {
             <TabBottom.Screen name="Accueil" component={HomeScreen} />
             <TabBottom.Screen name="Catalogue" component={CatalogScreen} />
             <TabBottom.Screen name="Reservations" component={CatalogScreen} />
-            {isSignedIn ? 
+            {token ? 
                 <>
                     <TabBottom.Screen name="Profile" component={ProfileScreen} />
                 </>

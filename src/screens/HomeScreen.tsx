@@ -4,22 +4,21 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import { ImageBackground, StatusBar, StyleSheet, Text, View } from "react-native";
 import home from "../../assets/images/home.jpg";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CustomButton from "../components/CustomButton/CustomButton";
+import CustomButton from "../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../stores";
+import { setToken } from "../stores/tokenReducer";
 
-export default function HomeScreen() {
-  const navigation = useNavigation();
+export default function HomeScreen({navigation}) {
+  const token = useSelector((state: RootState) => state.token.jwt);
+  const dispatch = useDispatch();
 
-  const {logged, setLogged} = useContext(AuthContext);
+  const {setLogged} = useContext(AuthContext);
 
-  async function getToken() {
-    const token = await AsyncStorage.getItem("@token");
-    console.log('====================================');
-    console.log('le token dans la home ', token);
-    console.log('le token dans la home ', logged);
-    console.log('====================================');
-    if(logged){
+  useEffect(() => {
+    if(token){
       showMessage({
         message: "Bienvenue",
         type: "info",
@@ -28,15 +27,12 @@ export default function HomeScreen() {
     if(token === null){
       setLogged(false);
     }
-  };
-
-  useEffect(() => {
-    getToken();
   }, [])
 
   {/* Function remove token but don't refresh navigation */}
   const removeToken = async () => {
     await AsyncStorage.removeItem("@token");
+    dispatch(setToken(""));
     const token = await AsyncStorage.getItem("@token");
     navigation.navigate('Accueil');
     console.log('====================================');
