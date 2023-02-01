@@ -3,16 +3,20 @@ import { Image, View, Text, StyleSheet } from "react-native";
 import wildRentLogo from "../../assets/images/WildRentLogo.png";
 import { Ionicons } from "@expo/vector-icons";
 
-const HeaderBar = () => {
+const HeaderBar = ({ navigation }) => {
   return (
     <View style={styles.headerContainer}>
-    <View style={styles.headerLogoContainer}>
-      <Image source={wildRentLogo}  />
+      <View style={styles.headerLogoContainer}>
+        <Image source={wildRentLogo} />
+      </View>
+      <View style={styles.headerIconContainer}>
+        <Ionicons
+          name="md-basket"
+          style={styles.headerIcon}
+          onPress={() => navigation.navigate("Catalogue")}
+        />
+      </View>
     </View>
-    <View style={styles.headerIconContainer}>
-      <Ionicons name="md-basket" style={styles.headerIcon} />
-    </View>
-  </View>
   );
 };
 const styles = StyleSheet.create({
@@ -28,7 +32,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     padding: 15,
-    paddingTop: 50
+    paddingTop: 50,
   },
   headerLogoContainer: {
     flex: 1,
@@ -37,14 +41,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  headerIconContainer :{
+  headerIconContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
   },
-  headerIcon : {
-    fontSize: 35
-  }
+  headerIcon: {
+    fontSize: 35,
+  },
 });
 
 export default HeaderBar;

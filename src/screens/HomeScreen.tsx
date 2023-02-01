@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import {
@@ -6,7 +6,6 @@ import {
   Image,
   ImageBackground,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -16,15 +15,25 @@ import service_rapide from "../../assets/images/foudre.png";
 import hotline from "../../assets/images/hotline.png";
 import paiements_sec from "../../assets/images/card.png";
 import skieur from '../../assets/images/skieur.jpg';
-import AsyncStorage, { useAsyncStorage } from "@react-native-async-storage/async-storage";
-import CustomButton from "../components/CustomButton";
-import { useNavigation } from "@react-navigation/native";
-import { AuthContext } from "../context/AuthContext";
 import ProductCard from "../components/ProductCard";
+import IProduct from "../interfaces/IProduct";
+import { useQuery } from "@apollo/client";
+import { GET_LAST_FOUR_PRODUCTS } from "../Tools/Query";
 
 export default function HomeScreen({navigation}) {
-  
-//
+
+  const [lastFourProducts, setlastFourProducts ] = useState<IProduct[]>([]);
+
+  const {
+    loading: loadingLastFourProducts,
+    data: dataLastFourProducts,
+    error: errorLastFourProducts,
+  } = useQuery(GET_LAST_FOUR_PRODUCTS, {
+    onCompleted: (dataLastFourProducts) => {
+      setlastFourProducts(dataLastFourProducts.getLastFourProducts);
+    },
+  });
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -58,10 +67,11 @@ export default function HomeScreen({navigation}) {
         </Text>
         <View style={{ flex: 1, width: "100%", flexDirection: "row" }}>
           <ScrollView horizontal>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {
+              lastFourProducts.map((product) => {
+               return <ProductCard key={product.id} product={product} />
+              })
+            }           
           </ScrollView>
         </View>
       </View>

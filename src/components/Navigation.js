@@ -12,8 +12,7 @@ import SignIn from "../screens/SignIn/SignIn";
 import { Image, StyleSheet, View } from "react-native";
 import HeaderBar from "./HeaderBar";
 
-const TabBottom = createBottomTabNavigator();
-
+const TabBottom = createBottomTabNavigator()
 const Navigation = () => {
   // ------- Il faut enregistrer si on veut voir les changements de la nav (si connecté ou non) ------- \\
   const [isSignedIn, setSignedIn] = useState(false);
@@ -35,7 +34,7 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       <AuthProvider>
-       <HeaderBar />
+      <HeaderBar />
         <TabBottom.Navigator
           screenOptions={({ route }) => ({
             headerShown: false,
