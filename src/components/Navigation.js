@@ -7,12 +7,13 @@ import ProfileScreen from "../screens/ProfileScreen";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import CatalogScreen from "../screens/CatalogScreen";
 import { AuthProvider } from "../context/AuthContext";
-import Register from "../screens/Register/Register";
-import SignIn from "../screens/SignIn/SignIn";
+import Register from "../screens/Register";
+import SignIn from "../screens/SignIn";
 import { Image, StyleSheet, View } from "react-native";
 import HeaderBar from "./HeaderBar";
+import ReservatiionScreen from "../screens/ReservationScreen";
 
-const TabBottom = createBottomTabNavigator()
+const TabBottom = createBottomTabNavigator();
 const Navigation = () => {
   // ------- Il faut enregistrer si on veut voir les changements de la nav (si connecté ou non) ------- \\
   const [isSignedIn, setSignedIn] = useState(false);
@@ -34,7 +35,7 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       <AuthProvider>
-      <HeaderBar />
+        <HeaderBar />
         <TabBottom.Navigator
           screenOptions={({ route }) => ({
             headerShown: false,
@@ -71,7 +72,10 @@ const Navigation = () => {
         >
           <TabBottom.Screen name="Accueil" component={HomeScreen} />
           <TabBottom.Screen name="Catalogue" component={CatalogScreen} />
-          <TabBottom.Screen name="Reservations" component={CatalogScreen} />
+          <TabBottom.Screen
+            name="Reservations"
+            component={ReservatiionScreen}
+          />
           {isSignedIn ? (
             <>
               <TabBottom.Screen name="Profile" component={ProfileScreen} />
@@ -88,7 +92,5 @@ const Navigation = () => {
     </NavigationContainer>
   );
 };
-
-
 
 export default Navigation;

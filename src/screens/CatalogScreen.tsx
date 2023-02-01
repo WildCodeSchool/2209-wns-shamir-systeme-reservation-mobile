@@ -1,21 +1,50 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
-import { Text, View } from "react-native";
-import CustomButton from "../components/CustomButton";
+import { StyleSheet, Text, View } from "react-native";
 
-export default function CatalogScreen({navigation}) {
-  const removeToken = async () => {
-    await AsyncStorage.removeItem("@token");
-    const token = await AsyncStorage.getItem("@token");
-    navigation.navigate("Accueil");
-    console.log("====================================");
-    console.log("token supprimé ", typeof token);
-    console.log("valeur du token ", token);
-    console.log("====================================");
-  };
-return (
-  <View>
-    <CustomButton text="LogOut" type="WILD" size="200" onPress={removeToken} />
-  </View>
-)
+export default function CatalogScreen({}) {
+  return (
+    <View style={styles.container}>
+    <Text style={styles.title}>Catalogue des produits</Text>
+     
+      
+        {/*   <SearchProduct
+          categories={categories}
+          findBySearchTerm={findBySearchTerm}
+          findByCategory={findByCategory}
+          handleFindByDate={handleFindByDate}
+          reloadAllProducts={reloadAllProducts}
+          productsByDate={productsByDate}
+          resetProductsView={resetProductsView}
+          categoriesFromHome={categoriesFromHome}
+          dateFromHome={dateFromHome}
+          dateToHome={dateToHome}
+          isSearchFromHome={isSearchFromHome}
+        /> */}
+        
+          {/*   {isShowProducts &&
+            productsToShow.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                productsByDate={productsByDate}
+                isSearchFromHome={isSearchFromHome}
+              />
+            ))} */}
+ 
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title :{
+    flex: 1,
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: "#0D83AB",
+    marginTop: 20
+  }
+});
