@@ -2,8 +2,10 @@ import React from "react";
 import { Image, View, Text, StyleSheet } from "react-native";
 import wildRentLogo from "../../assets/images/WildRentLogo.png";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-const HeaderBar = ({ navigation }) => {
+const HeaderBar = () => {
+  const navigation = useNavigation()
   return (
     <View style={styles.headerContainer}>
       <View style={styles.headerLogoContainer}>
@@ -13,7 +15,7 @@ const HeaderBar = ({ navigation }) => {
         <Ionicons
           name="md-basket"
           style={styles.headerIcon}
-          onPress={() => navigation.navigate("Catalogue")}
+          onPress={() => navigation.navigate("Profile")}
         />
       </View>
     </View>

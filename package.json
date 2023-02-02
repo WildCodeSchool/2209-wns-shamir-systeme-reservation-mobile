@@ -28,6 +28,7 @@
     "react": "18.1.0",
     "react-hook-form": "^7.42.1",
     "react-native": "0.70.5",
+    "react-native-bouncy-checkbox": "^3.0.6",
     "react-native-dotenv": "^3.4.7",
     "react-native-fast-image": "^8.6.3",
     "react-native-flash-message": "^0.4.0",

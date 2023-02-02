@@ -8,7 +8,7 @@ import { setToken } from "../stores/tokenReducer";
 import { showMessage } from "react-native-flash-message";
 import { AuthContext } from "../context/AuthContext";
 
-export default function ReservatiionScreen({navigation}) {
+export default function ReservationScreen({navigation}) {
 
   const token = useSelector((state: RootState) => state.token.jwt);
   const dispatch = useDispatch();

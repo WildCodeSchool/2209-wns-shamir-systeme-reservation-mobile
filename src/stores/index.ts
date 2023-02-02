@@ -1,10 +1,14 @@
 
 import { configureStore } from "@reduxjs/toolkit";
+import categoriesReducer from "./categoriesReducer";
+import productReducer from "./productReducer";
 import tokenReducer from "./tokenReducer";
 
 export const store = configureStore({
   reducer: {
     token: tokenReducer,
+    products: productReducer,
+    categories: categoriesReducer
   },
 });
 

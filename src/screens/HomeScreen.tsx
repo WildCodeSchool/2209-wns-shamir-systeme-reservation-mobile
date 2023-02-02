@@ -12,25 +12,23 @@ import home from "../../assets/images/home.jpg";
 import service_rapide from "../../assets/images/foudre.png";
 import hotline from "../../assets/images/hotline.png";
 import paiements_sec from "../../assets/images/card.png";
-import skieur from '../../assets/images/skieur.jpg';
+import skieur from "../../assets/images/skieur.jpg";
 import ProductCard from "../components/ProductCard";
 import IProduct from "../interfaces/IProduct";
 import { useQuery } from "@apollo/client";
 import { GET_LAST_FOUR_PRODUCTS } from "../Tools/Query";
+import { RootState } from "../stores";
+import { useSelector } from "react-redux";
+import { loadHomeProducts } from "../Tools/UseQuery";
+import { useEffect } from "react";
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({ navigation }) {
 
-  const [lastFourProducts, setlastFourProducts ] = useState<IProduct[]>([]);
+  loadHomeProducts();
 
-  const {
-    loading: loadingLastFourProducts,
-    data: dataLastFourProducts,
-    error: errorLastFourProducts,
-  } = useQuery(GET_LAST_FOUR_PRODUCTS, {
-    onCompleted: (dataLastFourProducts) => {
-      setlastFourProducts(dataLastFourProducts.getLastFourProducts);
-    },
-  });
+  const lastFourProducts = useSelector(
+    (state: RootState) => state.products.homeProducts
+  );
 
   return (
     <ScrollView>
@@ -44,7 +42,7 @@ export default function HomeScreen({navigation}) {
           >
             <View style={styles.buttonView}>
               <Text
-                onPress={() => navigation.navigate('Catalogue')}
+                onPress={() => navigation.navigate("Catalogue")}
                 style={styles.button}
               >
                 Rechercher les produits
@@ -69,7 +67,7 @@ export default function HomeScreen({navigation}) {
               lastFourProducts.map((product) => {
                return <ProductCard key={product.id} product={product} />
               })
-            }           
+            }            
           </ScrollView>
         </View>
       </View>
@@ -101,8 +99,21 @@ export default function HomeScreen({navigation}) {
       </View>
       <View>
         <Text style={styles.homeEndTitle}>Title</Text>
-        <Text style={styles.homeEndDescription}> Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolorum suscipit dolorem distinctio nesciunt blanditiis ducimus obcaecati numquam repellendus nemo ipsum consectetur veniam quas, accusamus quam! Possimus reprehenderit assumenda tempore? Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos deserunt aliquid exercitationem quos quas aspernatur eum ea nulla at, tempore harum, amet numquam eius, nisi quae in aperiam quod magnam?</Text>
-        <Image source={skieur} resizeMode="cover" style={styles.imageMountain} />
+        <Text style={styles.homeEndDescription}>
+          {" "}
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+          dolorum suscipit dolorem distinctio nesciunt blanditiis ducimus
+          obcaecati numquam repellendus nemo ipsum consectetur veniam quas,
+          accusamus quam! Possimus reprehenderit assumenda tempore? Lorem ipsum
+          dolor sit amet consectetur adipisicing elit. Eos deserunt aliquid
+          exercitationem quos quas aspernatur eum ea nulla at, tempore harum,
+          amet numquam eius, nisi quae in aperiam quod magnam?
+        </Text>
+        <Image
+          source={skieur}
+          resizeMode="cover"
+          style={styles.imageMountain}
+        />
       </View>
     </ScrollView>
   );
@@ -154,7 +165,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     color: "white",
-    textAlign: "center"
+    textAlign: "center",
   },
   homeServices: {
     width: "100%",
@@ -163,7 +174,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 50
+    padding: 50,
   },
   serviceText: {
     fontSize: 20,
@@ -171,24 +182,24 @@ const styles = StyleSheet.create({
     color: "white",
   },
   serviceImage: {
-    marginBottom: 30
+    marginBottom: 30,
   },
-  imageMountain : {
+  imageMountain: {
     flex: 1,
     justifyContent: "center",
     position: "relative",
     width: "100%",
     height: 550,
   },
-  homeEndTitle : {
+  homeEndTitle: {
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 25,
-    marginBottom: 20
+    marginBottom: 20,
   },
-  homeEndDescription : {
+  homeEndDescription: {
     textAlign: "center",
     fontSize: 18,
-    marginBottom: 50
-  }
+    marginBottom: 50,
+  },
 });

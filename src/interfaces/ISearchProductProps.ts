@@ -4,9 +4,9 @@ import IProduct from "./IProduct";
 export default interface ISearchTermProps {
   findBySearchTerm: (searchTerm: string, isCategoriesFiltered: boolean) => void,
   findByCategory: (categories: ICategory[]) => void,
-  handleFindByDate: (dateFrom: string, dateTo: string ) => void,
+  //handleFindByDate: (dateFrom: string, dateTo: string ) => void,
   categories: ICategory[],
-  reloadAllProducts: () => void,
+ // reloadAllProducts: () => void,
   resetProductsView: () =>void,
   productsByDate: IProduct[],
   categoriesFromHome: ICategory[]
