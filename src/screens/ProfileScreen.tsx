@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from 'expo-secure-store';
 import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
-import CustomButton from '../components/CustomButton';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores";
@@ -32,13 +31,12 @@ export default function ProfileScreen({navigation}) {
 
   // Function remove token
   const LogOut = async () => {
-    await AsyncStorage.removeItem("@token");
+    await SecureStore.deleteItemAsync("token");
     dispatch(setToken(""));
-    const token = await AsyncStorage.getItem("@token");
     navigation.navigate("CustomTab", {screen: 'Accueil'});
+    const tok = SecureStore.getItemAsync("token");
     console.log('====================================');
-    console.log('token supprimé dans profil - type du token = ', typeof token);
-    console.log('valeur du token ', token);
+    console.log('valeur du token DANS AUTH ========= ', tok);
     console.log('====================================');
   }  
 
@@ -47,12 +45,6 @@ export default function ProfileScreen({navigation}) {
       <View style={styles.headerContainer}>
         <FlashMessage position="top"/>
         <LinearGradient colors={['#034F6A', '#1D9BD1', '#034F6A']} style={[styles.headColor, {width: width * 2, height: width * 2, marginLeft: - (width / 2), borderRadius: width,}]}/>
-        <TouchableOpacity onPress={() => navigation.navigate("CustomTab", {screen: 'Accueil'})} style={styles.btnHome}>
-            <View style={{flexDirection: "row", alignItems: "center"}}>
-              <Ionicons name="chevron-back-outline" size={28} color="#fff"/>
-              <Text style={styles.btnHomeText}>Accueil</Text>
-            </View>
-        </TouchableOpacity >
         <View style={styles.profileContainer}>
           <Text style={styles.nameText}>Nom Prénom</Text>
           <Image
@@ -111,7 +103,7 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     alignItems: 'center',
-    marginTop: 70,
+    marginTop: 40,
     paddingBottom: 50,
   },
   profilePhoto: {
@@ -140,17 +132,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#04678b",
     width: 200,
     marginBottom: 5,
-  },
-  btnHome: {
-    width: 80,
-    position: "absolute",
-    left: 10,
-    top: 10,
-  },
-  btnHomeText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 16, 
   },
   nameText: {
     color: "#fff",
