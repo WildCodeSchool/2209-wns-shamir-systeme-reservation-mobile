@@ -1,4 +1,3 @@
-import { TextProps, TextStyle } from "react-native";
 export default interface ICustomeButtonProp {
     onPress?: () => void;
     text?: string; 

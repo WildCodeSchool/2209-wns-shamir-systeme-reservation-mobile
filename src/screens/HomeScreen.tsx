@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import FlashMessage from "react-native-flash-message";
 import {
   Image,
   ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
+  useWindowDimensions,
   View,
 } from "react-native";
 import home from "../../assets/images/home.jpg";
@@ -19,8 +20,12 @@ import { useQuery } from "@apollo/client";
 import { GET_LAST_FOUR_PRODUCTS } from "../Tools/Query";
 
 export default function HomeScreen({navigation}) {
-
+  const {height, width} = useWindowDimensions();
   const [lastFourProducts, setlastFourProducts ] = useState<IProduct[]>([]);
+
+  console.log('====================================');
+  console.log('la heigth est de : ', height);
+  console.log('====================================');
 
   const {
     loading: loadingLastFourProducts,
@@ -35,21 +40,17 @@ export default function HomeScreen({navigation}) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <FlashMessage position="top" />
-        <View style={{ flex: 1, width: "100%" }}>
+        <View style={{ flex: 1, width: "100%", top: -30}}>
           <ImageBackground
             source={home}
             resizeMode="cover"
             style={styles.image}
           >
-            <View style={styles.buttonView}>
-              <Text
-                onPress={() => navigation.navigate('Catalogue')}
-                style={styles.button}
-              >
-                Rechercher les produits
-              </Text>
-            </View>
+            <TouchableOpacity style={styles.buttonView} onPress={() => navigation.navigate('Catalogue')}>
+                <Text style={styles.button}>
+                  Rechercher les produits
+                </Text>
+            </TouchableOpacity>
           </ImageBackground>
         </View>
         <Text
@@ -76,7 +77,7 @@ export default function HomeScreen({navigation}) {
       <View style={styles.homeServicesContainer}>
         <View style={styles.homeServices}>
           <ImageBackground source={home} resizeMode="cover">
-            <View style={{ backgroundColor: "#175e81b3", paddingVertical: 20 }}>
+            <View style={[styles.homeServicesBody]}>
               <Text style={styles.homeServicesTitle}>
                 Une expertise à votre service
               </Text>
@@ -133,15 +134,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
     opacity: 0.8,
     borderWidth: 1,
+    borderRadius: 5,
     borderColor: "white",
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 1,
+    shadowOpacity: 1,
+    shadowRadius: 3,
+    elevation: 3,
     fontSize: 15,
     color: "white",
-    backgroundColor: "transparent",
+    backgroundColor: "rgba(120, 120, 120, 0.3)",
   },
   homeServicesContainer: {
     flex: 1,
@@ -149,10 +151,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 50,
   },
+  homeServicesBody: {
+    backgroundColor: "#175e81b3", 
+    paddingVertical: 40
+  } ,
   homeServicesTitle: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 30,
     color: "white",
     textAlign: "center"
   },
@@ -163,7 +169,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 50
+    marginBottom: 20,
   },
   serviceText: {
     fontSize: 20,
@@ -171,7 +177,10 @@ const styles = StyleSheet.create({
     color: "white",
   },
   serviceImage: {
-    marginBottom: 30
+    resizeMode: "center",
+    width: 100,
+    height: 100,
+    marginBottom: 20,
   },
   imageMountain : {
     flex: 1,
@@ -184,11 +193,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 25,
-    marginBottom: 20
+    marginBottom: 30
   },
   homeEndDescription : {
     textAlign: "center",
     fontSize: 18,
-    marginBottom: 50
+    marginBottom: 50,
+    paddingHorizontal: 15
   }
 });

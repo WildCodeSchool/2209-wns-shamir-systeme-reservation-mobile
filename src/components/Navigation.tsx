@@ -8,21 +8,16 @@ import CatalogScreen from '../screens/CatalogScreen';
 import { AuthProvider } from '../context/AuthContext';
 import Register from '../screens/Register';
 import SignIn from '../screens/SignIn';
-import { useSelector } from 'react-redux';
-import { RootState } from '../stores';
-import HeaderBar from './HeaderBar';
-import ReservatiionScreen from '../screens/ReservationScreen';
+import ReservationScreen from '../screens/ReservationScreen';
+import HeaderBar from '../screens/HeaderBar';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const TabBottom = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-const Navigation = () => {
-    const token = useSelector((state: RootState) => state.token.jwt);
-
-  return (
-    <NavigationContainer>
-        <AuthProvider>
-            <HeaderBar />
-            <TabBottom.Navigator
+const CustomNavigation = () => {
+    return (
+        <TabBottom.Navigator
             screenOptions={({ route }) => ({
                 headerShown: false,
                 tabBarStyle: {
@@ -42,12 +37,6 @@ const Navigation = () => {
                     iconName = focused ? "list" : "list-outline";
                 } else if (route.name === "Reservations") {
                     iconName = focused ? "briefcase" : "briefcase-outline";
-                } else if (route.name === "Profile") {
-                    iconName = focused ? "person-circle" : "person-circle-outline";
-                } else if (route.name === "Register") {
-                    iconName = focused ? "log-in" : "log-in-outline";
-                } else if (route.name === "SignIn") {
-                    iconName = focused ? "log-in" : "log-in-outline";
                 }
 
                 return <Ionicons name={iconName} size={size} color={color} />;
@@ -55,21 +44,31 @@ const Navigation = () => {
                 tabBarActiveTintColor: "#0d7ebf",
                 tabBarInactiveTintColor: "gray",
             })}>
-            <TabBottom.Screen name="Accueil" component={HomeScreen} />
-            <TabBottom.Screen name="Catalogue" component={CatalogScreen} />
-            <TabBottom.Screen name="Reservations" component={ReservatiionScreen} />
-            {token ? 
-                <>
-                    <TabBottom.Screen name="Profile" component={ProfileScreen} />
-                </>
-            : 
-                <>
-                <TabBottom.Screen name="Register" component={Register} />
-                {/* À déplacer dans la nav du haut  */}
-                <TabBottom.Screen name="SignIn" component={SignIn} />
-                </>
-            }
+                <TabBottom.Screen name="Accueil" component={HomeScreen} />
+                <TabBottom.Screen name="Catalogue" component={CatalogScreen} />
+                <TabBottom.Screen name="Reservations" component={ReservationScreen} />
             </TabBottom.Navigator>
+    )
+}
+
+const Navigation = () => {
+
+  return (
+    <NavigationContainer>
+        <AuthProvider>
+            <HeaderBar/>
+            <Stack.Navigator initialRouteName="CustomTab">
+                <Stack.Group>
+                    <Stack.Screen name="CustomTab" component={CustomNavigation} options={{ headerShown: false }}/>
+                </Stack.Group>
+                <Stack.Group>
+                    <Stack.Screen name="Accueil" component={HomeScreen} options={{ headerShown: false }}/>
+                    
+                    <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
+                    <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+                    <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }}/>
+                </Stack.Group>
+            </Stack.Navigator>
         </AuthProvider>
     </NavigationContainer>
   )
