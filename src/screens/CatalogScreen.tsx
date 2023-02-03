@@ -224,10 +224,8 @@ export default function CatalogScreen({}) {
           dateToHome={dateToHome}
           isSearchFromHome={isSearchFromHome}  />
 
-   
+   <ScrollView>
     <View style={styles.productsList} >
-     <ScrollView >
-      
      {isShowProducts &&
             productsToShow.map((product) => (
               <ProductCard
@@ -237,14 +235,8 @@ export default function CatalogScreen({}) {
                 isSearchFromHome={isSearchFromHome}
               />
             ))} 
-     
-        
-
-     </ScrollView>
      </View>
-        
-          
- 
+     </ScrollView>
     </View>
   );
 }
@@ -253,7 +245,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+  },
+  cat :{
+  
   },
   title :{
     fontSize: 25,
@@ -262,8 +257,10 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   productsList :{
-    flex:1,
-    justifyContent: "center",
-    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap:"wrap",
+    justifyContent: 'space-between',
+    padding: 10,
   }
 });

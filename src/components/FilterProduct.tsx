@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TextInput } from "react-native";
 import ICategory from "../interfaces/ICategory";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import ISearchTermProps from "../interfaces/ISearchProductProps";
@@ -162,10 +162,10 @@ const FilterProduct = ({categories,
                 textStyle={{
                   textDecorationLine: "none",
                   textAlign: "center",
-                  fontSize: 12,
+                  fontSize: 14,
                 }}
                 style={styles.bouncyCheckbox}
-                size={20}
+                size={25}
                 fillColor="#0D83AB"
                 unfillColor="#FFFFFF"
                 text={category.name}
@@ -175,6 +175,13 @@ const FilterProduct = ({categories,
             ))}
           </ScrollView>
         </View>
+       {/*  <View>
+          <TextInput
+           placeholder="Chaussures... Casque... "
+            onChange={handleSearchTerm}
+            value={searchTerm}
+          />
+        </View> */}
       </View>
     </ScrollView>
     </View>
