@@ -4,7 +4,8 @@ import IProduct from "../interfaces/IProduct";
 const initialState = {
   homeProducts: [],
   allProducts: [],
-  productsByDate: []
+  productsByDate: [],
+  isFilterShow: false
 };
 
 export const productsReducer = createSlice({
@@ -20,8 +21,11 @@ export const productsReducer = createSlice({
     setProductsByDate: (state, action: PayloadAction<[]>) => {
       state.productsByDate = action.payload;
     },
+    setisFilterShow: (state, action: PayloadAction<boolean>) => {
+      state.isFilterShow = action.payload;
+    },
   },
 });
 
-export const { setHomeProducts,setAllProducts, setProductsByDate } = productsReducer.actions;
+export const { setHomeProducts,setAllProducts, setProductsByDate , setisFilterShow} = productsReducer.actions;
 export default productsReducer.reducer;

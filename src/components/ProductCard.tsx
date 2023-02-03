@@ -50,7 +50,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cardContainerCatalog: {
+   // minWidth: "30%",
     width: "48%",
+    minWidth: 150,
+    alignItems: "center",
     justifyContent: "space-between",
     padding: 5,
     marginBottom: 20,
@@ -73,8 +76,8 @@ const styles = StyleSheet.create({
     width: 200,
   },
   imageCatalog: {
-    height: 120,
-    width: 120
+    height: 140,
+    width: 140,
   },
 });
 

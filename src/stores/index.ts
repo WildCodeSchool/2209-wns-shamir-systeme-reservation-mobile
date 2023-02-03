@@ -8,7 +8,7 @@ export const store = configureStore({
   reducer: {
     token: tokenReducer,
     products: productReducer,
-    categories: categoriesReducer
+    categories: categoriesReducer,
   },
 });
 
