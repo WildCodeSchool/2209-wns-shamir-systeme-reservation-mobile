@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TextInput } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
+import { TextInput} from 'react-native-paper';
 import ICategory from "../interfaces/ICategory";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import ISearchTermProps from "../interfaces/ISearchProductProps";
+import close from "../../assets/images/close.png";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../stores";
+import { setisFilterShow } from "../stores/productReducer";
 
 const FilterProduct = ({categories,
   findBySearchTerm,
@@ -30,6 +35,12 @@ const FilterProduct = ({categories,
   const categoriesArray = categoryList.filter((cat: any) => {
     return cat.products.length > 0;
   });
+
+  const dispatch = useDispatch();
+
+  const isFilterShow = useSelector(
+    (state: RootState) => state.products.isFilterShow
+  );
 
   useEffect(() => {
     if (categoriesFromHome.length > 0) {
@@ -102,6 +113,11 @@ const FilterProduct = ({categories,
     }
   };
 
+  useEffect(() => {
+    findBySearchTerm(searchTerm.toLowerCase(), isCategoriesFiltered);
+  }, [searchTerm])
+
+
   const handleSearchTerm = (e: any): void => {
     setSearchTerm(e.target.value);
     findBySearchTerm(e.target.value.toLowerCase(), isCategoriesFiltered);
@@ -148,12 +164,13 @@ const FilterProduct = ({categories,
   }
 
   return (
-    <View style={{height: 100}}>
-    <ScrollView >
+    <View style={{}}>
+    
       <View style={styles.filterContainer}>
+      <TouchableOpacity style={{ position: "absolute", top: -15, right: 15,}} onPress={() => dispatch(setisFilterShow(!isFilterShow))}  ><Image source={close}  style={styles.close}/></TouchableOpacity> 
         <View style={styles.checkboxContainer}>
-          <ScrollView horizontal style={styles.scrollCategories}>
-            <Text style={styles.activities}>Activités :</Text>
+        <Text style={styles.activityText}>Activités :</Text>
+          <ScrollView horizontal>
             {categoriesArray.map((category: any) => (
               <BouncyCheckbox
               onPress={() => handleCheckbox(category.name)} //
@@ -175,51 +192,76 @@ const FilterProduct = ({categories,
             ))}
           </ScrollView>
         </View>
-       {/*  <View>
+        <View>
           <TextInput
-           placeholder="Chaussures... Casque... "
-            onChange={handleSearchTerm}
-            value={searchTerm}
+           label="Quel produit ?"
+           mode="outlined"
+           onChangeText={setSearchTerm}
+           value={searchTerm}
           />
-        </View> */}
+        </View> 
       </View>
-    </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   filterContainer: {
-    marginVertical: 10,
-  },
-  checkboxContainer: {},
-  bouncyCheckbox: {
-    minWidth: 80,
-    justifyContent: "center",
-    alignItems: "center",
-    height: 50,
-    marginHorizontal: 20,
-  },
-  activities: {
-    textAlign: "center",
-    fontSize: 15,
-    fontWeight: "bold",
-    marginVertical: 10,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  scrollCategories: {
-    paddingHorizontal: 15,
-    opacity: 0.8,
+    marginTop: 15,
+    paddingHorizontal:20,
+    paddingVertical: 20,
+    backgroundColor: "white",
+    zIndex:1,
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: "#0D83AB",
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#0D83AB",
+    paddingHorizontal: 5,
+    marginBottom: 5,
+    opacity: 0.8,
     shadowColor: "#0D83AB",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 1,
     backgroundColor: "transparent",
+
+
   },
+  bouncyCheckbox: {
+    minWidth: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 50,
+    marginHorizontal: 10,
+  },
+  activityText: {
+    fontSize: 13,
+    fontWeight: "bold",
+    position: "relative",
+    top: 15,
+    paddingRight: 10,
+  },
+
+  input : {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    color : "0D83AB",
+  },
+  close : {
+    width: 30,
+    height: 30,
+    backgroundColor: "white" ,
+    borderRadius: 50,
+    marginRight:10
+
+  }
 });
 
 export default FilterProduct;
