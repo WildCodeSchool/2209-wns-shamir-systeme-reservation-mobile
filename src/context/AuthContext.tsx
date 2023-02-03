@@ -39,7 +39,7 @@ export const AuthProvider = ({children}: any) => {
             setSizeSpin(80);
             setStyleSpin(styles.spinner);
             setTimeout(() => {
-                navigation.navigate("Accueil");
+                navigation.navigate("CustomTab", {screen: 'Accueil'});
               setAnimateSpin(false);
               setSizeSpin(0);
             }, 2000);

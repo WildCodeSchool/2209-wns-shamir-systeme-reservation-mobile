@@ -1,4 +1,4 @@
-import { Text, StyleSheet, Pressable } from 'react-native'
+import { Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ICustomeButtonProp from '../interfaces/ICustomeButtonProp';
@@ -6,12 +6,12 @@ import ICustomeButtonProp from '../interfaces/ICustomeButtonProp';
 const CustomButton = ({onPress, text, type, size, icon, nameIcon, colorIcon}: ICustomeButtonProp) => {
     
   return (
-    <Pressable onPress={onPress} style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
         <Text style={[styles.button, styles[`btn_${type}`], styles[`btn_${parseInt(size)}`] ]}>
             {text}
             {icon ? <Ionicons name={nameIcon} size={32} color={colorIcon} /> : ''}
         </Text>
-    </Pressable >
+    </TouchableOpacity >
   )
 }
 
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 20,
     },
-    btn_20: {
+    btn_100: {
         width: 20
     },
     btn_200: {

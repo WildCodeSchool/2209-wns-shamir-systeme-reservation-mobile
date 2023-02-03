@@ -1,8 +1,10 @@
 import React from 'react'
 import { Controller } from 'react-hook-form'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
+import ICustomInputProps from '../interfaces/ICustomInputProps'
 
-const CustomInput = ({control, name, placeholder, rules, secureTextEntry, size}) => {
+const CustomInput = ({control, name, placeholder, rules, secureTextEntry, size}: ICustomInputProps) => {
+
   return (
     <Controller name={name} control={control} rules={rules} render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
       <>
