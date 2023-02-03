@@ -13,18 +13,12 @@ const HeaderBar = () => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.row}>
-        <Ionicons
-            name={token ? "person-circle" : "log-in"}
-            style={styles.headerIcon}
-            // @ts-ignore
-            onPress={() => token ? navigation.navigate("Profile") : navigation.navigate("SignIn")}
-          />
         <Image source={wildRentLogo} style={styles.wildRentLogo}/>
         <Ionicons
             name="md-basket"
             style={styles.headerIcon}
             // @ts-ignore
-            onPress={() => token ? navigation.navigate("CustomTab", {screen: 'Accueil'}) : navigation.navigate("SignIn")}
+            onPress={() => token ? navigation.navigate("CustomTab", {screen: 'Accueil'}) : navigation.navigate("Register")}
           />
       </View>
     </View>
@@ -43,11 +37,14 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
     paddingTop: 20,
+    paddingHorizontal: 20
   },
   wildRentLogo: {
-    resizeMode: "center",
+    resizeMode: "contain",
+    width: 100,
+    height: 100,
   },
   headerIcon: {
     fontSize: 35,

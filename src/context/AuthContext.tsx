@@ -38,11 +38,11 @@ export const AuthProvider = ({children}: any) => {
             setAnimateSpin(true);
             setSizeSpin(80);
             setStyleSpin(styles.spinner);
-            setTimeout(() => {
+            // setTimeout(() => {
                 navigation.navigate("CustomTab", {screen: 'Accueil'});
               setAnimateSpin(false);
               setSizeSpin(0);
-            }, 2000);
+            // }, 2000);
         })
         .catch((e) => {
             setErrorCreate('Identifiant ou mot de passe incorrect.');

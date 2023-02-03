@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 23,
   },
   serviceText: {
     fontSize: 20,
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     resizeMode: "center",
     width: 100,
     height: 100,
-    marginBottom: 20,
+    marginBottom: 6,
   },
   imageMountain: {
     flex: 1,

@@ -10,11 +10,14 @@ import Register from '../screens/Register';
 import SignIn from '../screens/SignIn';
 import HeaderBar from '../screens/HeaderBar';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores';
 
 const TabBottom = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const CustomNavigation = () => {
+    const token = useSelector((state: RootState) => state.token.jwt);
     return (
         <TabBottom.Navigator
             screenOptions={({ route }) => ({
@@ -34,6 +37,10 @@ const CustomNavigation = () => {
                     iconName = focused ? "home" : "home-outline";
                 } else if (route.name === "Catalogue") {
                     iconName = focused ? "list" : "list-outline";
+                } else if (route.name === "Profile") {
+                    iconName = focused ? "person-circle" : "person-circle-outline";
+                } else if (route.name === "SignIn") {
+                    iconName = focused ? "log-in" : "log-in-outline";
                 }
 
                 return <Ionicons name={iconName} size={size} color={color} />;
@@ -43,6 +50,8 @@ const CustomNavigation = () => {
             })}>
                 <TabBottom.Screen name="Accueil" component={HomeScreen} />
                 <TabBottom.Screen name="Catalogue" component={CatalogScreen} />
+                {token ? <TabBottom.Screen name="Profile" component={ProfileScreen}/>
+                : <TabBottom.Screen name="SignIn" component={SignIn}/>}
             </TabBottom.Navigator>
     )
 }
@@ -59,10 +68,7 @@ const Navigation = () => {
                 </Stack.Group>
                 <Stack.Group>
                     <Stack.Screen name="Accueil" component={HomeScreen} options={{ headerShown: false }}/>
-                    
-                    <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
                     <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
-                    <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }}/>
                 </Stack.Group>
             </Stack.Navigator>
         </AuthProvider>

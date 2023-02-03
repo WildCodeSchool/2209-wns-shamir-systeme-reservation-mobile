@@ -41,12 +41,6 @@ const SignIn = () => {
         <ImageBackground source={home} resizeMode="cover" style={styles.image}>
             <LinearGradient colors={['transparent', '#0d81ab']} style={styles.background}>
                 <View style={styles.root} >
-                <TouchableOpacity onPress={() => navigation.navigate("CustomTab", {screen: 'Accueil'})} style={styles.btnHome}>
-                    <View style={{flexDirection: "row", alignItems: "center"}}>
-                    <Ionicons name="chevron-back-outline" size={28} color="#fff"/>
-                    <Text style={styles.btnHomeText}>Accueil</Text>
-                    </View>
-                </TouchableOpacity >
                     <Image source={Logo} style={[styles.logo, {height: height * 0.1}]} resizeMode="contain"></Image>
                     <Text style={styles.title}>CONNEXION</Text>
                     {isSubmitSuccessful ? <ActivityIndicator color='#30bcef' size={sizeSpin} animating={animateSpin} style={styleSpin}/> : ''}
@@ -81,17 +75,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: 40,
-    },
-    btnHome: {
-        width: 80,
-        position: "absolute",
-        left: 10,
-        top: 10
-    },
-        btnHomeText: {
-        color: '#fff',
-        textAlign: 'center',
-        fontSize: 16, 
     },
     title: {
         marginVertical: 20,

@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
     width: 200,
   },
   imageCatalog: {
-    height: 150,
-    width: 150,
+    height: 120,
+    width: 120
   },
 });
 
