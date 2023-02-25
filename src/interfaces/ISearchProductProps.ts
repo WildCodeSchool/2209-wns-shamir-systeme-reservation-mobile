@@ -7,10 +7,9 @@ export default interface ISearchTermProps {
   //handleFindByDate: (dateFrom: string, dateTo: string ) => void,
   categories: ICategory[],
  // reloadAllProducts: () => void,
-  resetProductsView: () =>void,
   productsByDate: IProduct[],
-  categoriesFromHome: ICategory[]
-  dateFromHome: string,
-  dateToHome: string
-  isSearchFromHome: boolean
+  //categoriesFromHome: ICategory[]
+  //dateFromHome: string,
+  //dateToHome: string
+  //isSearchFromHome: boolean
 }

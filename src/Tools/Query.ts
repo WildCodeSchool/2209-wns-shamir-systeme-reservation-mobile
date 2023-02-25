@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useLazyQuery } from "@apollo/client";
 
 const IS_ADMIN = gql`
   query isAdmin($token: String!) {
@@ -76,6 +76,7 @@ const GET_PRODUCTS_BY_DATE = gql`
     }
   }
 `;
+
 
 const GET_USER = gql`
   query getUser($token: String!) {

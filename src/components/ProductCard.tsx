@@ -36,7 +36,7 @@ const ProductCard = ({ product }: IProductProps) => {
 const styles = StyleSheet.create({
   cardContainerHome: {
     flex: 1,
-    padding: 15,
+    paddingHorizontal: 15,
     margin: 10,
     backgroundColor: "#fff",
     width: 300,

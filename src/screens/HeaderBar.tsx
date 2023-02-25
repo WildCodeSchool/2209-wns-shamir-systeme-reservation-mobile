@@ -31,8 +31,9 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     backgroundColor: "#9DBDD3",
-    height: 100,
+    height: 85,
     justifyContent: "center",
+    paddingTop: 15
   },
   row: {
     flexDirection: "row",
@@ -43,8 +44,8 @@ const styles = StyleSheet.create({
   },
   wildRentLogo: {
     resizeMode: "contain",
-    width: 100,
-    height: 100,
+    width: 65,
+    height: 65,
   },
   headerIcon: {
     fontSize: 35,

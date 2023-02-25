@@ -1,34 +1,45 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
-import { TextInput} from 'react-native-paper';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Button,
+} from "react-native";
+import { TextInput } from "react-native-paper";
 import ICategory from "../interfaces/ICategory";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import ISearchTermProps from "../interfaces/ISearchProductProps";
-import close from "../../assets/images/close.png";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores";
-import { setisFilterShow } from "../stores/productReducer";
+import {
+  setCategoriesFiltered,
+  setEndDate,
+  setErrorMessage,
+  setIsCategoriesFiltered,
+  setIsFilterUsed,
+  setSearchTerm,
+  setStartDate,
+} from "../stores/filterReducer";
 
-const FilterProduct = ({categories,
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useLazyQuery } from "@apollo/client";
+import { GET_PRODUCTS_BY_DATE } from "../Tools/Query";
+import { setProductsByDate } from "../stores/productReducer";
+
+const FilterProduct = ({
+  categories,
   findBySearchTerm,
   findByCategory,
-  //handleFindByDate,
-  //reloadAllProducts,
-  productsByDate,
-  resetProductsView,
-  categoriesFromHome,
-  dateFromHome,
-  dateToHome,
-  isSearchFromHome}: ISearchTermProps) => {
-
+}: ISearchTermProps) => {
   const [dateFrom, setDateFrom] = useState<string>("");
   const [dateTo, setDateTo] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [categoriesFiltered, setCategoriesFiltered] = useState<ICategory[]>([]);
-  const [isCategoriesFiltered, setIsCategoriesFiltered] =
-    useState<boolean>(false);
-  const [isProductsByDate, setIsProductsByDate] = useState<boolean>(false);
+  const [isStartDateVisible, setStartDateVisibility] = useState(false);
+  const [isEndDateVisible, setEndDateVisibility] = useState(false);
+
+  const dispatch = useDispatch();
 
   const categoryList = Object.values(categories);
   // On recupere seulement les categories qui ont minimum un produit lié
@@ -36,49 +47,125 @@ const FilterProduct = ({categories,
     return cat.products.length > 0;
   });
 
-  const dispatch = useDispatch();
-
-  const isFilterShow = useSelector(
-    (state: RootState) => state.products.isFilterShow
+  const isCategoriesFiltered = useSelector(
+    (state: RootState) => state.filter.isCategoriesFiltered
   );
 
-  useEffect(() => {
-    if (categoriesFromHome.length > 0) {
-      setCategoriesFiltered(categoriesFromHome);
-    }
-    if (dateFromHome !== '') {
-    
-      setDateFrom(dateFromHome);
-      setDateTo(dateToHome);
-      setIsProductsByDate(true)
-    }
-  }, [isSearchFromHome]);
+  const categoriesFiltered = useSelector(
+    (state: RootState) => state.filter.categoriesFiltered
+  );
 
-  // On controle si on a des produits recherchés par dates et si c est le cas on affiche le boutton "Réinitialiser"
-  // sinon on le cache
+  const searchTerm = useSelector((state: RootState) => state.filter.searchTerm);
+
+  const isFilterUsed = useSelector(
+    (state: RootState) => state.filter.isFilterUsed
+  );
+
+  const startDate = useSelector((state: RootState) => state.filter.startDate);
+
+  const endDate = useSelector((state: RootState) => state.filter.endDate);
+  const errorMessage = useSelector(
+    (state: RootState) => state.filter.errorMessage
+  );
+
+  //======================================================================//
+  //======================== GESTION DES DATES ===========================//
+  //======================================================================//
+
+  const showStartDate = () => {
+    setStartDateVisibility(true);
+  };
+
+  const hideStartDate = () => {
+    setStartDateVisibility(false);
+  };
+
+  const handleConfirmStartDate = (date: any) => {
+    const serializedDate = date.toISOString();
+    const startDate = serializedDate.substring(0, 10);
+    dispatch(setStartDate(startDate));
+    hideStartDate();
+  };
+
+  const showEndDate = () => {
+    setEndDateVisibility(true);
+  };
+
+  const hideEndDate = () => {
+    setEndDateVisibility(false);
+  };
+
+  const handleConfirmEndDate = (date: any) => {
+    const serializedDate = date.toISOString();
+    const endDate = serializedDate.substring(0, 10);
+    dispatch(setEndDate(endDate));
+    hideEndDate();
+  };
+
+  const formatDate = (date: string) => {
+    const parts = date.split("-");
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  };
+
+  const [getProductsByDate] = useLazyQuery(GET_PRODUCTS_BY_DATE);
+  const loadProductsByDate = (dateFrom: string, dateTo: string) => {
+    getProductsByDate({ variables: { dateFrom, dateTo } })
+      .then(({ data }) => {
+        dispatch(setProductsByDate(data.getProductsByDate));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
-    if (productsByDate.length === 0) {
-      setIsProductsByDate(false);
-    } else {
-      setIsProductsByDate(true);
+    if (startDate && endDate) {
+      const timestampStart = new Date(startDate).getTime();
+      const timestampEnd = new Date(endDate).getTime();
+      // On verifie si la date de debut est superieure à la date de fin
+      if (timestampStart > timestampEnd) {
+        // Si c'est le cas on affiche un message d'erreur
+        dispatch(setErrorMessage("Dates non conformes"));
+      } else {
+        dispatch(setErrorMessage(""));
+        dispatch(setCategoriesFiltered([]));
+        dispatch(setSearchTerm(""));
+        loadProductsByDate(startDate, endDate);
+      }
     }
-  }, [productsByDate]);
+  }, [startDate, endDate]);
+
+  //======================================================================//
+
+
+  // On check si on utilise les filtres
+  useEffect(() => {
+    if (categoriesFiltered || searchTerm || startDate || endDate) {
+      dispatch(setIsFilterUsed(true));
+    } else {
+      dispatch(setIsFilterUsed(false));
+    }
+  }, [categoriesFiltered, searchTerm, startDate, endDate]);
 
   // Pour chaque categorie selectionnée ou deselectionnée on appelle une function pour trier les produits
   useEffect(() => {
     findByCategory(categoriesFiltered);
     if (categoriesFiltered.length > 0) {
-      setIsCategoriesFiltered(true);
+      dispatch(setIsCategoriesFiltered(true));
     } else {
-      setIsCategoriesFiltered(false);
+      dispatch(setIsCategoriesFiltered(false));
     }
   }, [categoriesFiltered]);
+
+
+  //======================================================================//
+  //======================== GESTION DES CHECKBOX ========================//
+  //======================================================================//
 
   // Function qui returne un true ou false selon l'etat (selectionné ou pas) d'un checkbox categories
   const isChecked = (categoryName: string): boolean => {
     // On controle dans la liste des categories selectionnées si la catageorie passée en argument est presente
     if (
-      categoriesFiltered.find(
+      categoriesFiltered.find(//@ts-ignore
         (categoryFiltred) => categoryFiltred.name === categoryName
       )
     ) {
@@ -91,15 +178,14 @@ const FilterProduct = ({categories,
 
   // Function qui permet de stoker ou enlever du state les categories selectionnées dans les checkbox
   const handleCheckbox = (nameCategoryToAdd: string): void => {
-
     // On controle l'état du checkbox
     if (isChecked(nameCategoryToAdd)) {
       // Si il etait dejà coché, on le decoché en créant une nouvelle liste de categories selectionnées sans la categorié que on vient de traiter
-      const newCategoriesToAdd: ICategory[] = categoriesFiltered.filter(
+      const newCategoriesToAdd: ICategory[] = categoriesFiltered.filter(//@ts-ignore
         (categoryFiltred) => categoryFiltred.name !== nameCategoryToAdd
       );
-      setCategoriesFiltered(newCategoriesToAdd);
-      setSearchTerm("");
+      dispatch(setCategoriesFiltered(newCategoriesToAdd));
+      dispatch(setSearchTerm(""));
     } else {
       // Si il etait decoché, on le coche en créant une nouvelle categorie
       const newCategory: ICategory | undefined = categories.find(
@@ -107,79 +193,102 @@ const FilterProduct = ({categories,
       );
       if (newCategory) {
         // On ajoute cette nouvelle categorie à la liste des filtres des produits "findByCategory(categoriesFiltered);"
-        setCategoriesFiltered([...categoriesFiltered, newCategory]);
-        setSearchTerm("");
+        dispatch(setCategoriesFiltered([...categoriesFiltered, newCategory]));
+        dispatch(setSearchTerm(""));
       }
     }
   };
+  //======================================================================//
 
+
+  // Toutes les fois qu'on recherche un produit en tappant sûr des lettres on appelle la function "findBySearchTerm"
   useEffect(() => {
     findBySearchTerm(searchTerm.toLowerCase(), isCategoriesFiltered);
-  }, [searchTerm])
+  }, [searchTerm]);
 
-
-  const handleSearchTerm = (e: any): void => {
-    setSearchTerm(e.target.value);
-    findBySearchTerm(e.target.value.toLowerCase(), isCategoriesFiltered);
+  const handleSearchTerm = (term: string): void => {
+    dispatch(setSearchTerm(term));
+    findBySearchTerm(term.toLowerCase(), isCategoriesFiltered);
   };
-
-  const handleDateFrom = (e: any): void => {
-    setDateFrom(e.target.value);
-  };
-  const handleDateTo = (e: any): void => {
-    setDateTo(e.target.value);
-  };
-
-  const handleSubmit = (e: any): void => {
-    e.preventDefault();
-
-    // On controle si la date de debut et la date de fin on été selectionnées
-    if (dateFrom && dateTo) {
-      const timestampFrom = new Date(dateFrom).getTime();
-      const timestampTo = new Date(dateTo).getTime();
-      // On verifie si la date de debut est superieure à la date de fin
-      if (timestampFrom > timestampTo) {
-        // Si c'est le cas on affiche un message d'erreur
-        setErrorMessage("Dates non conformes");
-      } else {
-        setErrorMessage("");
-        //handleFindByDate(dateFrom, dateTo);
-        setCategoriesFiltered([]);
-        setSearchTerm("");
-      }
-    } else {
-      // Si c'est pas le cas on affiche un message d'erreur
-      setErrorMessage("Sélectionner deux dates");
-    }
-  };
-
-  // On gére la réinitialisation des produis à afficher
-  function handleClickreloadProducts() {
-    setDateFrom("");
-    setDateTo("");
-    setCategoriesFiltered([]);
-    setSearchTerm("");
-    resetProductsView();
-    //reloadAllProducts();
-  }
 
   return (
-    <View style={{}}>
-    
+    <View style={{ height: 80 }}>
       <View style={styles.filterContainer}>
-      <TouchableOpacity style={{ position: "absolute", top: -15, right: 15,}} onPress={() => dispatch(setisFilterShow(!isFilterShow))}  ><Image source={close}  style={styles.close}/></TouchableOpacity> 
+        <View style={styles.datesContainer}>
+          <Text
+            style={{
+              width: 113,
+              color: "red",
+              position: "absolute",
+              zIndex: -1,
+              borderColor: "white",
+              borderTopWidth: 2,
+              left: 10,
+              top: -2,
+            }}
+          ></Text>
+          <Text style={styles.dateText}>Dates Location :</Text>
+          <View style={styles.dates}>
+            <TouchableOpacity onPress={showStartDate} style={{ width: 100 }}>
+              {startDate ? (
+                <Text style={styles.date}> {formatDate(startDate)}</Text>
+              ) : (
+                <Text style={styles.date}>Debut location</Text>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity onPress={showEndDate} style={{ width: 100 }}>
+              {endDate ? (
+                <Text style={styles.date}>{formatDate(endDate)}</Text>
+              ) : (
+                <Text style={styles.date}>Fin location</Text>
+              )}
+            </TouchableOpacity>
+            <DateTimePickerModal
+              isVisible={isStartDateVisible}
+              mode="date"
+              onConfirm={handleConfirmStartDate}
+              onCancel={hideStartDate}
+            />
+            <DateTimePickerModal
+              isVisible={isEndDateVisible}
+              mode="date"
+              onConfirm={handleConfirmEndDate}
+              onCancel={hideEndDate}
+            />
+          </View>
+          {errorMessage ? (
+            <View>
+              <Text style={styles.errorMessage}>{errorMessage}</Text>
+            </View>
+          ) : (
+            ""
+          )}
+        </View>
         <View style={styles.checkboxContainer}>
-        <Text style={styles.activityText}>Activités :</Text>
+          <Text
+            style={{
+              width: 73,
+              color: "red",
+              position: "absolute",
+              zIndex: -1,
+              borderColor: "white",
+              borderTopWidth: 2,
+              left: 10,
+              top: -2,
+            }}
+          ></Text>
+          <Text style={styles.activityText}>Activités :</Text>
           <ScrollView horizontal>
             {categoriesArray.map((category: any) => (
               <BouncyCheckbox
-              onPress={() => handleCheckbox(category.name)} //
-              isChecked={isChecked(category.name)}
+                onPress={() => handleCheckbox(category.name)} //
+                isChecked={isChecked(category.name)}
                 key={category.id}
                 textStyle={{
                   textDecorationLine: "none",
                   textAlign: "center",
                   fontSize: 14,
+                  color: "#0D83AB",
                 }}
                 style={styles.bouncyCheckbox}
                 size={25}
@@ -194,12 +303,12 @@ const FilterProduct = ({categories,
         </View>
         <View>
           <TextInput
-           label="Quel produit ?"
-           mode="outlined"
-           onChangeText={setSearchTerm}
-           value={searchTerm}
+            label="Quel produit ?"
+            mode="outlined"
+            onChangeText={(text) => handleSearchTerm(text)}
+            value={searchTerm}
           />
-        </View> 
+        </View>
       </View>
     </View>
   );
@@ -207,31 +316,63 @@ const FilterProduct = ({categories,
 
 const styles = StyleSheet.create({
   filterContainer: {
-    marginTop: 15,
-    paddingHorizontal:20,
-    paddingVertical: 20,
+    paddingHorizontal: 3,
+    marginTop: 5,
     backgroundColor: "white",
-    zIndex:1,
-    borderWidth: 1,
-    borderColor: "#0D83AB",
+    zIndex: 1,
   },
+  datesContainer: {
+    width: "100%",
+    alignContent: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "#7500be",
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    marginBottom: 10,
+    minHeight: 50,
+    borderRadius: 5,
+  },
+  dates: {
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "space-around",
+  },
+  date: {
+    width: 120,
+    borderWidth: 2,
+    borderColor: "#7500be",
+    textAlign: "center",
+    borderRadius: 5,
+    color: "#7500be",
+    paddingTop: 3,
+  },
+  errorMessage: {
+    width: "100%",
+    textAlign: "center",
+    color: "red",
+  },
+  dateText: {
+    fontSize: 13,
+    fontWeight: "bold",
+    position: "absolute",
+    top: -13,
+    left: 10,
+    color: "#7500be",
+    zIndex: 10,
+    paddingHorizontal: 3,
+  },
+
   checkboxContainer: {
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "center",
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "#0D83AB",
     paddingHorizontal: 5,
     marginBottom: 5,
-    opacity: 0.8,
-    shadowColor: "#0D83AB",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 1,
-    backgroundColor: "transparent",
-
-
+    backgroundColor: "white",
+    borderRadius: 5,
   },
   bouncyCheckbox: {
     minWidth: 80,
@@ -243,25 +384,27 @@ const styles = StyleSheet.create({
   activityText: {
     fontSize: 13,
     fontWeight: "bold",
-    position: "relative",
-    top: 15,
-    paddingRight: 10,
+    position: "absolute",
+    top: -13,
+    left: 10,
+    color: "#0D83AB",
+    zIndex: 10,
+    paddingHorizontal: 3,
   },
 
-  input : {
+  input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
-    color : "0D83AB",
+    color: "0D83AB",
   },
-  close : {
+  close: {
     width: 30,
     height: 30,
-    backgroundColor: "white" ,
+    backgroundColor: "white",
     borderRadius: 50,
-    marginRight:10
-
-  }
+    marginRight: 10,
+  },
 });
 
 export default FilterProduct;
