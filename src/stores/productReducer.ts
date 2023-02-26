@@ -5,6 +5,7 @@ const initialState = {
   homeProducts: [],
   allProducts: [],
   productsByDate: [],
+  isProductsByDate: false,
 };
 
 export const productsReducer = createSlice({
@@ -20,8 +21,11 @@ export const productsReducer = createSlice({
     setProductsByDate: (state, action: PayloadAction<[]>) => {
       state.productsByDate = action.payload;
     },
+    setIsProductsByDate: (state, action: PayloadAction<boolean>) => {
+      state.isProductsByDate = action.payload;
+    },
   },
 });
 
-export const { setHomeProducts,setAllProducts, setProductsByDate} = productsReducer.actions;
+export const { setHomeProducts,setAllProducts, setProductsByDate, setIsProductsByDate} = productsReducer.actions;
 export default productsReducer.reducer;

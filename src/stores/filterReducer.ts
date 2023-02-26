@@ -22,7 +22,7 @@ export const filterReducer = createSlice({
     setIsCategoriesFiltered: (state, action: PayloadAction<boolean>) => {
       state.isCategoriesFiltered = action.payload;
     },
-    setCategoriesFiltered: (state, action: PayloadAction<ICategory[]>) => {
+    setCategoriesFiltered: (state, action: PayloadAction<ICategory[]>) => {//@ts-ignore
       state.categoriesFiltered = action.payload;
     },
     setSearchTerm: (state, action: PayloadAction<string>) => {

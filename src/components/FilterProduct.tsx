@@ -4,9 +4,7 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Image,
   TouchableOpacity,
-  Button,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import ICategory from "../interfaces/ICategory";
@@ -34,8 +32,6 @@ const FilterProduct = ({
   findBySearchTerm,
   findByCategory,
 }: ISearchTermProps) => {
-  const [dateFrom, setDateFrom] = useState<string>("");
-  const [dateTo, setDateTo] = useState<string>("");
   const [isStartDateVisible, setStartDateVisibility] = useState(false);
   const [isEndDateVisible, setEndDateVisibility] = useState(false);
 
@@ -56,10 +52,6 @@ const FilterProduct = ({
   );
 
   const searchTerm = useSelector((state: RootState) => state.filter.searchTerm);
-
-  const isFilterUsed = useSelector(
-    (state: RootState) => state.filter.isFilterUsed
-  );
 
   const startDate = useSelector((state: RootState) => state.filter.startDate);
 
@@ -126,9 +118,6 @@ const FilterProduct = ({
         // Si c'est le cas on affiche un message d'erreur
         dispatch(setErrorMessage("Dates non conformes"));
       } else {
-        dispatch(setErrorMessage(""));
-        dispatch(setCategoriesFiltered([]));
-        dispatch(setSearchTerm(""));
         loadProductsByDate(startDate, endDate);
       }
     }
@@ -136,10 +125,14 @@ const FilterProduct = ({
 
   //======================================================================//
 
-
   // On check si on utilise les filtres
   useEffect(() => {
-    if (categoriesFiltered || searchTerm || startDate || endDate) {
+    if (
+      categoriesFiltered.length ||
+      searchTerm.length ||
+      startDate.length ||
+      endDate.length
+    ) {
       dispatch(setIsFilterUsed(true));
     } else {
       dispatch(setIsFilterUsed(false));
@@ -156,7 +149,6 @@ const FilterProduct = ({
     }
   }, [categoriesFiltered]);
 
-
   //======================================================================//
   //======================== GESTION DES CHECKBOX ========================//
   //======================================================================//
@@ -165,7 +157,8 @@ const FilterProduct = ({
   const isChecked = (categoryName: string): boolean => {
     // On controle dans la liste des categories selectionnées si la catageorie passée en argument est presente
     if (
-      categoriesFiltered.find(//@ts-ignore
+      categoriesFiltered.find(
+        //@ts-ignore
         (categoryFiltred) => categoryFiltred.name === categoryName
       )
     ) {
@@ -181,7 +174,8 @@ const FilterProduct = ({
     // On controle l'état du checkbox
     if (isChecked(nameCategoryToAdd)) {
       // Si il etait dejà coché, on le decoché en créant une nouvelle liste de categories selectionnées sans la categorié que on vient de traiter
-      const newCategoriesToAdd: ICategory[] = categoriesFiltered.filter(//@ts-ignore
+      const newCategoriesToAdd: ICategory[] = categoriesFiltered.filter(
+        //@ts-ignore
         (categoryFiltred) => categoryFiltred.name !== nameCategoryToAdd
       );
       dispatch(setCategoriesFiltered(newCategoriesToAdd));
@@ -199,7 +193,6 @@ const FilterProduct = ({
     }
   };
   //======================================================================//
-
 
   // Toutes les fois qu'on recherche un produit en tappant sûr des lettres on appelle la function "findBySearchTerm"
   useEffect(() => {

@@ -27,8 +27,7 @@ import {
   setSearchTerm,
   setStartDate,
 } from "../stores/filterReducer";
-import { useNavigation } from "@react-navigation/native";
-import { setProductsByDate } from "../stores/productReducer";
+import { setIsProductsByDate, setProductsByDate } from "../stores/productReducer";
 
 export default function CatalogScreen({}) {
   const dispatch = useDispatch();
@@ -62,12 +61,6 @@ export default function CatalogScreen({}) {
     (state: RootState) => state.filter.isFilterUsed
   );
 
-  const cf = useSelector((state: RootState) => state.filter.categoriesFiltered);
-
-  const icf = useSelector(
-    (state: RootState) => state.filter.isCategoriesFiltered
-  );
-
   // On gére la réinitialisation des produis à afficher et on set à 0 les filtres
   const handleResetFilter = () => {
     dispatch(setCategoriesFiltered([]));
@@ -96,9 +89,11 @@ export default function CatalogScreen({}) {
       dispatch(setIsFilterShow(false));
       dispatch(setIsFilterUsed(true));
       dispatch(setErrorMessage(""));
+      dispatch(setIsProductsByDate(true));
       setProductsByCat([]);
       setProductsByTerm([]);
       setProductsByCatTerm([]);
+
     } else {
       setProductsByCat([]);
       setProductsByCatTerm([]);
@@ -106,6 +101,7 @@ export default function CatalogScreen({}) {
       setProductsCatalog(products);
       setProductsToShow(productsCatalog);
       setIsShowProduct(true);
+      dispatch(setIsProductsByDate(false))
     }
   }, [products, productsByDate, isResetProducts, productsCatalog]);
 
@@ -185,7 +181,6 @@ export default function CatalogScreen({}) {
 
   //======================================================================//
 
-
   //======================================================================//
   //================= GESTION DU FILTRE FINDBYCATEGORY  ==================//
   //======================================================================//
@@ -218,7 +213,7 @@ export default function CatalogScreen({}) {
   };
 
   //======================================================================//
- 
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Catalogue des produits</Text>
@@ -304,7 +299,6 @@ export default function CatalogScreen({}) {
             categories={categories}
             findBySearchTerm={findBySearchTerm}
             findByCategory={findByCategory}
-            productsByDate={productsByDate}
           />
         </View>
       )}

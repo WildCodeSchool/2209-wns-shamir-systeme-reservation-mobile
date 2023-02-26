@@ -7,11 +7,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import home from "../../assets/images/home.jpg";
-import service_rapide from "../../assets/images/foudre.png";
-import hotline from "../../assets/images/hotline.png";
-import paiements_sec from "../../assets/images/card.png";
+} from "react-native";//@ts-ignore
+import home from "../../assets/images/home.jpg";//@ts-ignore
+import service_rapide from "../../assets/images/foudre.png";//@ts-ignore
+import hotline from "../../assets/images/hotline.png";//@ts-ignore
+import paiements_sec from "../../assets/images/card.png";//@ts-ignore
 import skieur from "../../assets/images/skieur.jpg";
 import ProductCard from "../components/ProductCard";
 import { RootState } from "../stores";
@@ -56,7 +56,7 @@ export default function HomeScreen({ navigation }: any) {
         <View style={{ flex: 1, width: "100%", flexDirection: "row" }}>
           <ScrollView horizontal>
             {
-              lastFourProducts.map((product) => {
+              lastFourProducts.map((product) => {//@ts-ignore
                return <ProductCard key={product.id} product={product} />
               })
             }            
