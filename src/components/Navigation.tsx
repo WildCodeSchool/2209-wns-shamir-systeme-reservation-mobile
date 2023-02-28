@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
@@ -15,14 +15,25 @@ import { RootState } from '../stores';
 import { GET_USER } from '../Tools/Query';
 import { useLazyQuery } from '@apollo/client';
 import { setUser } from '../stores/userReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TabBottom = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const CustomNavigation = () => {
+    // token of store
     const token = useSelector((state: RootState) => state.token.jwt);
     const [getUser] = useLazyQuery(GET_USER);
     const dispatch = useDispatch();
+
+    const [tokenOfAsyncStore, setTokenAsyncStore] = useState<string | null>("")
+
+    // function get token in local (in case the user to close app without disconnection)
+    async function getTokenInAsyncStorage() {
+        const tok = await AsyncStorage.getItem("token");
+        setTokenAsyncStore(tok);
+    } 
+    getTokenInAsyncStorage();
 
     async function initUser(token: string) {
         try {
@@ -38,8 +49,10 @@ const CustomNavigation = () => {
     useEffect(() => {
         if (token) {
             initUser(token);
+        }else if(tokenOfAsyncStore) {
+            initUser(tokenOfAsyncStore);
         }
-    }, []);
+    }, [token, tokenOfAsyncStore]);
 
     return (
         <TabBottom.Navigator
@@ -73,7 +86,7 @@ const CustomNavigation = () => {
             })}>
                 <TabBottom.Screen name="Accueil" component={HomeScreen} />
                 <TabBottom.Screen name="Catalogue" component={CatalogScreen} />
-                {token ? <TabBottom.Screen name="Profile" component={ProfileScreen}/>
+                {token || tokenOfAsyncStore ? <TabBottom.Screen name="Profile" component={ProfileScreen}/>
                 : <TabBottom.Screen name="SignIn" component={SignIn}/>}
             </TabBottom.Navigator>
     )
