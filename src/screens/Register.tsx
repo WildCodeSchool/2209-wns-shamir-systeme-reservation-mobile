@@ -53,7 +53,6 @@ const Register = () => {
                         <Text style={styles.btnHomeText}>Accueil</Text>
                         </View>
                     </TouchableOpacity >
-                    <Image source={Logo} style={[styles.logo, {height: height * 0.1}]} resizeMode="contain"></Image>
                     <Text style={styles.title}>Inscription</Text>
                     <ActivityIndicator color='#30bcef' size={sizeSpin} animating={animateSpin} style={styleSpin}/>
 
@@ -121,17 +120,11 @@ const styles = StyleSheet.create({
     },
     title: {
         marginVertical: 20,
+        paddingTop: 40,
         fontSize: 25,
         fontWeight: 'bold',
         textTransform: 'uppercase',
         color: '#fff'
-    },
-    logo: {
-      maxWidth: 300,
-      maxHeight: 100,
-      marginBottom: 30,
-      marginTop: 70,
-      padding: 10,
     },
     image: {
         flex: 1,

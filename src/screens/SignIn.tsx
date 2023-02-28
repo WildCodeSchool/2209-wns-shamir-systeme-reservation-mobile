@@ -41,7 +41,6 @@ const SignIn = () => {
         <ImageBackground source={home} resizeMode="cover" style={styles.image}>
             <LinearGradient colors={['transparent', '#0d81ab']} style={styles.background}>
                 <View style={styles.root} >
-                    <Image source={Logo} style={[styles.logo, {height: height * 0.1}]} resizeMode="contain"></Image>
                     <Text style={styles.title}>CONNEXION</Text>
                     {isSubmitSuccessful ? <ActivityIndicator color='#30bcef' size={sizeSpin} animating={animateSpin} style={styleSpin}/> : ''}
 
@@ -78,17 +77,11 @@ const styles = StyleSheet.create({
     },
     title: {
         marginVertical: 20,
+        paddingTop: 20,
         fontSize: 25,
         fontWeight: 'bold',
         textTransform: 'uppercase',
         color: '#fff'
-    },
-    logo: {
-      maxWidth: 300,
-      maxHeight: 100,
-      marginBottom: 30,
-      marginTop: 70,
-      padding: 10,
     },
     image: {
         flex: 1,

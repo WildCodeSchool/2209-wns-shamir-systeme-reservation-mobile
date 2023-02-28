@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: any) => {
   const handleToken = (data: ISigninProps): void => {
     getToken({ variables: { password: data.password, email: data.email } })
       .then(async ({ data }) => {
-        await AsyncStorage.setItem("@token", data.getToken);
+        await AsyncStorage.setItem("token", data.getToken);
         dispatch(setToken(data.getToken));
         setLogged(true);
         setAnimateSpin(true);
@@ -45,37 +45,41 @@ export const AuthProvider = ({ children }: any) => {
       .catch((e) => {
         setErrorCreate("Identifiant ou mot de passe incorrect.");
         console.log("====================================");
-        console.log("error ", e);
+        console.log("error dans handleToken (AuthContet) ", e);
         console.log("====================================");
       });
   };
 
-  const handleRegister = (data: IUserProps): void => {
-    const userEmail = data.email;
-    const userPassword = data.password;
-    if (userPassword === data.passwordConfirm) {
+  const handleRegister = (res: IUserProps): void => {
+    const userEmail = res.email;
+    const userPassword = res.password;
+    if (userPassword === res.passwordConfirm) {
       createUser({
         variables: {
-          firstname: data.firstname,
-          lastname: data.lastname,
-          phone: data.phone,
-          email: data.email,
-          password: data.password,
-          passwordConfirm: data.passwordConfirm,
+          firstname: res.firstname,
+          lastname: res.lastname,
+          phone: res.phone,
+          email: res.email,
+          password: res.password,
+          passwordConfirm: res.passwordConfirm,
         },
       })
         .then(async ({ data }) => {
-            await AsyncStorage.setItem("@token", data.getToken);
-            dispatch(setToken(data.getToken));
-            setLogged(true);
-            setAnimateSpin(true);
-            setSizeSpin(80);
-            setStyleSpin(styles.spinner);
-            // setTimeout(() => {
-                navigation.navigate("CustomTab", {screen: 'Accueil'});
-              setAnimateSpin(false);
-              setSizeSpin(0);
-            // }, 2000);
+          console.log('====================================');
+          console.log('la data dans context ', data);
+          console.log('====================================');
+          const token = await getToken({ variables: { password: res.password, email: res.email } });
+          await AsyncStorage.setItem("token", token.data.getToken);
+          dispatch(setToken(token.data.getToken));
+          setLogged(true);
+          setAnimateSpin(true);
+          setSizeSpin(80);
+          setStyleSpin(styles.spinner);
+          // setTimeout(() => {
+              navigation.navigate("CustomTab", {screen: 'Accueil'});
+            setAnimateSpin(false);
+            setSizeSpin(0);
+          // }, 2000);
         })
         .catch((e) => {
           if (e.message.substring(0, 9) === "duplicate") {
@@ -84,7 +88,7 @@ export const AuthProvider = ({ children }: any) => {
             setErrorCreate("Une erreur est survenue, merci de réessayer.");
           }
           console.log("====================================");
-          console.log("error ", e);
+          console.log("error dans handleRegister (AuthContext) ", e);
           console.log("====================================");
         });
     }

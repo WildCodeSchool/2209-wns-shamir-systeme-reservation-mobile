@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
@@ -10,14 +10,37 @@ import Register from '../screens/Register';
 import SignIn from '../screens/SignIn';
 import HeaderBar from '../screens/HeaderBar';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../stores';
+import { GET_USER } from '../Tools/Query';
+import { useLazyQuery } from '@apollo/client';
+import { setUser } from '../stores/userReducer';
 
 const TabBottom = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const CustomNavigation = () => {
     const token = useSelector((state: RootState) => state.token.jwt);
+    const [getUser] = useLazyQuery(GET_USER);
+    const dispatch = useDispatch();
+
+    async function initUser(token: string) {
+        try {
+            const user = await getUser({ variables: { token } });
+            dispatch(setUser(user.data.getUser));
+            // const isUserAdmin = await isAdmin({ variables: { token } });
+            // dispatch(setIsAdmin(isUserAdmin.data.isAdmin));
+        } catch (error) {
+            console.log('Erreur dans Navigation, function InitUser ', error);
+        }
+    }
+
+    useEffect(() => {
+        if (token) {
+            initUser(token);
+        }
+    }, []);
+
     return (
         <TabBottom.Navigator
             screenOptions={({ route }) => ({

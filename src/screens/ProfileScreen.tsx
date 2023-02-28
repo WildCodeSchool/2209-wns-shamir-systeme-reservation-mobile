@@ -7,11 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores";
 import FlashMessage, { showMessage } from "react-native-flash-message";
 import { setToken } from "../stores/tokenReducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ProfileScreen({navigation}) {
   const {width, height} = useWindowDimensions();
 
   const token = useSelector((state: RootState) => state.token.jwt);
+  const userDataStore = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
 
   const onPress = () => {
@@ -31,13 +33,10 @@ export default function ProfileScreen({navigation}) {
 
   // Function remove token
   const LogOut = async () => {
-    await SecureStore.deleteItemAsync("token");
+    await AsyncStorage.removeItem("token");
     dispatch(setToken(""));
     navigation.navigate("CustomTab", {screen: 'Accueil'});
-    const tok = SecureStore.getItemAsync("token");
-    console.log('====================================');
-    console.log('valeur du token DANS AUTH ========= ', tok);
-    console.log('====================================');
+    const tok = await AsyncStorage.getItem("token");
   }  
 
   return (
@@ -46,7 +45,7 @@ export default function ProfileScreen({navigation}) {
         <FlashMessage position="top"/>
         <LinearGradient colors={['#034F6A', '#1D9BD1', '#034F6A']} style={[styles.headColor, {width: width * 2, height: width * 2, marginLeft: - (width / 2), borderRadius: width,}]}/>
         <View style={styles.profileContainer}>
-          <Text style={styles.nameText}>Nom Prénom</Text>
+          <Text style={styles.nameText}>{userDataStore.lastname} {userDataStore.firstname}</Text>
           <Image
             style={styles.profilePhoto}
             source={{uri: 'https://picsum.photos/200'}}
