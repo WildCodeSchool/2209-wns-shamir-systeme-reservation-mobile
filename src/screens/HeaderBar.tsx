@@ -18,7 +18,7 @@ const HeaderBar = () => {
             name="md-basket"
             style={styles.headerIcon}
             // @ts-ignore
-            onPress={() => token ? navigation.navigate("CustomTab", {screen: 'Accueil'}) : navigation.navigate("Register")}
+            onPress={() =>  navigation.navigate("Cart")}
           />
       </View>
     </View>

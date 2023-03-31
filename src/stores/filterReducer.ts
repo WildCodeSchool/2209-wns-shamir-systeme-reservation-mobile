@@ -16,6 +16,7 @@ export const filterReducer = createSlice({
   name: "filter",
   initialState: initialState,
   reducers: {
+    resetFilter: () => initialState,
     setIsFilterShow: (state, action: PayloadAction<boolean>) => {
       state.isFilterShow = action.payload;
     },
@@ -43,5 +44,5 @@ export const filterReducer = createSlice({
   },
 });
 
-export const { setIsFilterShow, setIsCategoriesFiltered, setCategoriesFiltered, setSearchTerm, setIsFilterUsed, setStartDate, setEndDate, setErrorMessage } = filterReducer.actions;
+export const { setIsFilterShow, setIsCategoriesFiltered, setCategoriesFiltered, setSearchTerm, setIsFilterUsed, setStartDate, setEndDate, setErrorMessage, resetFilter } = filterReducer.actions;
 export default filterReducer.reducer;

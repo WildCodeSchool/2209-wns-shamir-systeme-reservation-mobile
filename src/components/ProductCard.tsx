@@ -2,17 +2,61 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import React from "react";
 import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Button } from "react-native-paper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import IProduct from "../interfaces/IProduct";
+import IProductCart from "../interfaces/IProductCart";
 import IProductProps from "../interfaces/IProductProps";
 import { RootState } from "../stores";
+import { setCart } from "../stores/cartReducer";
+import { getPeriod } from "../Tools/utils";
 
 const ProductCard = ({ product }: IProductProps) => {
- 
+  const dispatch = useDispatch();
   const route = useRoute().name;
   const isProductsByDate = useSelector(
     (state: RootState) => state.products.isProductsByDate
   );
+
+  const cartStore = useSelector((state: RootState) => state.cart.cart);
+  const productFilterStore = useSelector(
+    (state: RootState) => state.filter
+  );
+
+  const productCart: IProductCart = {
+    ...product,
+    dateFrom: "",
+    dateTo: "",
+    qtyInCart: 0,
+    subtotal: 0,
+  };
+
+  const handleAddToCart = () => {
+    let selectedProduct = cartStore.find(
+      (product) => product.id === productCart.id
+    );
+    if (selectedProduct === undefined) {
+      selectedProduct = productCart;
+    }
+    if (selectedProduct.qtyInCart < product.quantity) {
+      const newQty = selectedProduct.qtyInCart + 1;
+      const period = getPeriod(productFilterStore.startDate, productFilterStore.endDate);
+      const newPrice = selectedProduct.price * newQty * period;
+      const productCartUpdated = {
+        ...selectedProduct,
+        dateFrom: productFilterStore.startDate,
+        dateTo: productFilterStore.endDate,
+        qtyInCart: newQty,
+        subtotal: newPrice,
+      };
+      let updatedCart = cartStore.filter(
+        (product) => product.id !== selectedProduct?.id
+      );
+      const newCart = [...updatedCart, productCartUpdated];
+      dispatch(setCart(newCart));
+    } else {
+      window.alert("Vous avez atteint le stock disponible !")
+    }
+  };
 
   return (
     <View
@@ -32,7 +76,7 @@ const ProductCard = ({ product }: IProductProps) => {
         <View>
           <Text>{product.description}</Text>
           <Text>Prix / Jour : {product.price} €</Text>
-          { isProductsByDate && <TouchableOpacity >
+          { isProductsByDate && <TouchableOpacity  onPress={handleAddToCart}>
                 <Text style={styles.button}>
                   Ajouter au panier
                 </Text>
