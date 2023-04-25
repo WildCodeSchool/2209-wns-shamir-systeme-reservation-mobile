@@ -205,7 +205,7 @@ const FilterProduct = ({
   };
 
   return (
-    <View style={{ height: 80 }}>
+    <View style={{ height: 140 }}>
       <View style={styles.filterContainer}>
         <View style={styles.datesContainer}>
           <Text
@@ -322,7 +322,8 @@ const styles = StyleSheet.create({
     borderColor: "#7500be",
     paddingHorizontal: 5,
     paddingVertical: 5,
-    marginBottom: 10,
+    marginBottom: 15,
+    marginTop: 10,
     minHeight: 50,
     borderRadius: 5,
   },
@@ -349,11 +350,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold",
     position: "absolute",
-    top: -13,
+    top: -12,
     left: 10,
     color: "#7500be",
     zIndex: 10,
     paddingHorizontal: 3,
+    backgroundColor: "white",
   },
 
   checkboxContainer: {
@@ -378,11 +380,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold",
     position: "absolute",
-    top: -13,
+    top: -12,
     left: 10,
     color: "#0D83AB",
     zIndex: 10,
     paddingHorizontal: 3,
+    backgroundColor: "white",
   },
 
   input: {
