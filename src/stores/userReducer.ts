@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import IUser from "../interfaces/IUser";
+import IOrder from "../interfaces/IOrder";
 
 export interface UserState{
   user: IUser;
   isAdmin: boolean;
+  orders: IOrder[];
+  isOrderExist: boolean
 }
 
 const initialState: UserState = {
@@ -16,6 +19,8 @@ const initialState: UserState = {
     phone: "",
   },
   isAdmin: false,
+  orders: [],
+  isOrderExist: false,
 };
 
 export const userSlice = createSlice({
@@ -32,11 +37,17 @@ export const userSlice = createSlice({
       state.user.email = action.payload.email;
       state.user.phone = action.payload.phone;
     },
+    setOrders: (state, action: PayloadAction<[]>) => {
+      state.orders = action.payload;
+    },
+    setIsOrdersExist: (state, action: PayloadAction<boolean>) => {
+      state.isOrderExist = action.payload;
+    },
     reset: () => initialState,
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setIsAdmin, setUser, reset } = userSlice.actions;
+export const { setIsAdmin, setUser, reset, setIsOrdersExist, setOrders } = userSlice.actions;
 
 export default userSlice.reducer;

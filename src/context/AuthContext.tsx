@@ -5,10 +5,10 @@ import { useMutation } from "@apollo/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StyleSheet } from "react-native";
 import IUserProps from "../interfaces/IUserProps";
-import ISigninProps from "../interfaces/ISignInProps";
 import IAuthContextProps from "../interfaces/IAuthContextProps";
 import { setToken } from "../stores/tokenReducer";
 import { useDispatch } from "react-redux";
+import ISigninProps from "../interfaces/ISignInProps";
 
 export const AuthContext = createContext<IAuthContextProps | null>(null);
 
@@ -32,6 +32,8 @@ export const AuthProvider = ({ children }: any) => {
   const handleToken = (data: ISigninProps): void => {
     getToken({ variables: { password: data.password, email: data.email } })
       .then(async ({ data }) => {
+        console.log(data);
+        
         await AsyncStorage.setItem("token", data.getToken);
         dispatch(setToken(data.getToken));
         setLogged(true);

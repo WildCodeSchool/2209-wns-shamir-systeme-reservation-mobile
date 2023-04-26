@@ -9,9 +9,10 @@ const httpLink = createHttpLink({
 });
 
 // Middleware pour intercepter
-const authLink = setContext((_, { headers }) => {
+const authLink = setContext(async(_, { headers }) => {
   // get token in localStore
-  const token = AsyncStorage.getItem("token");
+  const token = await AsyncStorage.getItem("token");
+
 
   // stock token in headers
   return {

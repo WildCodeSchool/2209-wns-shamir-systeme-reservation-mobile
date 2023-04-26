@@ -76,7 +76,7 @@ const ProductCard = ({ product }: IProductProps) => {
         <View>
           <Text>{product.description}</Text>
           <Text>Prix / Jour : {product.price} €</Text>
-          { isProductsByDate && <TouchableOpacity  onPress={handleAddToCart}>
+          { route === "Catalogue" && isProductsByDate && <TouchableOpacity  onPress={handleAddToCart}>
                 <Text style={styles.button}>
                   Ajouter au panier
                 </Text>
@@ -91,7 +91,7 @@ const ProductCard = ({ product }: IProductProps) => {
 const styles = StyleSheet.create({
   cardContainerHome: {
     flex: 1,
-    paddingHorizontal: 15,
+    padding: 15,
     margin: 10,
     backgroundColor: "#fff",
     width: 300,

@@ -6,8 +6,11 @@ import IProductCartProps from "../interfaces/IProductCartProps";
 import { RootState } from "../stores";
 import { getPeriod, readableDate } from "../Tools/utils";
 import { setCart } from "../stores/cartReducer";
+import { useRoute } from "@react-navigation/native";
 
 export default function ProductCart({ cartItem }: IProductCartProps) {
+  const route = useRoute().name;
+
   const cartStore = useSelector((state: RootState) => state.cart.cart);
 
   const dispatch = useDispatch();
@@ -89,26 +92,29 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
         <View style={{ marginTop: 15 }}>
           <Text style={{ textAlign: "center" }}>Quantité</Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <TouchableOpacity onPress={removeFromCart}>
-              <Ionicons
-                name="remove-circle-outline"
-                size={35}
-                color="#0D83AB"
-              />
-            </TouchableOpacity>
+            {route === "Cart" && (
+              <TouchableOpacity onPress={removeFromCart}>
+                <Ionicons
+                  name="remove-circle-outline"
+                  size={35}
+                  color="#0D83AB"
+                />
+              </TouchableOpacity>
+            )}
             <Text
               style={{ textAlign: "center", marginHorizontal: 5, fontSize: 15 }}
             >
               {cartItem.qtyInCart}
             </Text>
-            <TouchableOpacity onPress={addToCart}>
-              <Ionicons name="add-circle-outline" size={35} color="#0D83AB" />
-            </TouchableOpacity>
+            {route === "Cart" && (
+              <TouchableOpacity onPress={addToCart}>
+                <Ionicons name="add-circle-outline" size={35} color="#0D83AB" />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </View>
       <View style={styles.cartItemRight}>
-        
         <View
           style={{
             borderBottomWidth: 2,
@@ -125,14 +131,16 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
           </Text>
         </View>
 
-        <View  style={{ marginTop: 15 }}>
+        <View style={{ marginTop: 15 }}>
           <Text>Prix : {cartItem.subtotal} €</Text>
         </View>
-        <View>
-          <TouchableOpacity onPress={deleteItem}  style={{ marginTop: 10 }}>
-            <Ionicons name="trash-bin-outline" size={30} color="#0D83AB" />
-          </TouchableOpacity>
-        </View>
+        {route === "Cart" && (
+          <View>
+            <TouchableOpacity onPress={deleteItem} style={{ marginTop: 10 }}>
+              <Ionicons name="trash-bin-outline" size={30} color="#0D83AB" />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -161,12 +169,10 @@ const styles = StyleSheet.create({
   cartItemLeft: {
     flex: 1,
     alignItems: "center",
-
   },
   cartItemRight: {
     flex: 1,
     alignItems: "flex-end",
     justifyContent: "space-around",
-    
   },
 });
