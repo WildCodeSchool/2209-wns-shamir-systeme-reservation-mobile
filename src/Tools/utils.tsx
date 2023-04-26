@@ -12,3 +12,15 @@ export const readableDate = (stringDate: string) => {
   const date = new Date(stringDate);
   return date.toLocaleDateString('fr-FR')
 }
+
+// transforme une date ( type Date) en string jj/mm/AAAA
+export const formatDate = (date: Date ): string | undefined=> {
+  let dateInitiale = new Date(date);
+  /// Extraire le jour, le mois et l'année avec la méthode split()
+  let jour = dateInitiale.getDate().toString().padStart(2, "0");
+  let mois = (dateInitiale.getMonth() + 1).toString().padStart(2, "0");
+  let annee = dateInitiale.getFullYear().toString();
+  // Concaténer les éléments dans une chaîne de caractères dans le format "jj/mm/aaaa"
+  let dateString = jour + "/" + mois + "/" + annee;
+  return dateString;
+};

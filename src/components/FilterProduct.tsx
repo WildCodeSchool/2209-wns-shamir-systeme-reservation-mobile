@@ -205,7 +205,7 @@ const FilterProduct = ({
   };
 
   return (
-    <View style={{ height: 80 }}>
+    <View style={{ height: 130 }}>
       <View style={styles.filterContainer}>
         <View style={styles.datesContainer}>
           <Text

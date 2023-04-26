@@ -17,6 +17,8 @@ import { useLazyQuery } from '@apollo/client';
 import { setUser } from '../stores/userReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CartScreen from '../screens/CartScreen';
+import OrderDetails from '../screens/OrderDetails';
+import OrderDetailsScreen from '../screens/OrderDetailsScreen';
 
 const TabBottom = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -107,6 +109,7 @@ const Navigation = () => {
                     <Stack.Screen name="Accueil" component={HomeScreen} options={{ headerShown: false }}/>
                     <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
                     <Stack.Screen name="Cart" component={CartScreen} options={{ headerShown: false }}/>
+                    <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} options={{ headerShown: false }}/>
                 </Stack.Group>
             </Stack.Navigator>
         </AuthProvider>

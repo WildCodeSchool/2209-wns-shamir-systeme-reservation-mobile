@@ -13,6 +13,7 @@ import { reset } from "../stores/cartReducer";
 import { setProductsByDate } from "../stores/productReducer";
 import IProduct from "../interfaces/IProduct";
 import { resetFilter } from "../stores/filterReducer";
+import { Ionicons } from "@expo/vector-icons";
 
 function CartScreen() {
   const productsStore = useSelector(
@@ -60,26 +61,25 @@ function CartScreen() {
   });
   // action de création de la commande puis on vide le panier
   const handleOrder = async () => {
-  /*  const acceptCGV = window.confirm(
+    /*  const acceptCGV = window.confirm(
       "Acceptez-vous les conditions générales de vente ?"
     );*/
-    
-      try {
-        await createOrder({
-          variables: {
-            userId: userStore.id,
-            reservations: reservations,
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-      dispatch(reset());
-      dispatch(setProductsByDate([]));
-      dispatch(resetFilter());
-      //@ts-ignore
-      navigation.navigate("Profile", { screen: "Profile" });
-    
+
+    try {
+      await createOrder({
+        variables: {
+          userId: userStore.id,
+          reservations: reservations,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    dispatch(reset());
+    dispatch(setProductsByDate([]));
+    dispatch(resetFilter());
+    //@ts-ignore
+    navigation.navigate("Profile", { screen: "Profile" });
   };
 
   // permet de vider le panier
@@ -90,15 +90,24 @@ function CartScreen() {
   return (
     <ScrollView>
       <View style={styles.container}>
+       
         <Text style={styles.title}>Mon panier</Text>
-
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("CustomTab", { screen: "Catalogue" })
+          }
+          style={styles.btnCatalogue}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+            <Ionicons name="chevron-back-outline" size={28} color="#0D83AB" />
+            <Text style={styles.btnCatalogueText}>Catalogue</Text>
+          </View>
+        </TouchableOpacity>
         {/* affichage ou non du bouton 'vider le panier' */}
         {sortedItems.length !== 0 ? (
-          
-            <TouchableOpacity onPress={handleEmpty} >
-              <Text style={styles.button}>Vider mon panier</Text>
-            </TouchableOpacity>
-        
+          <TouchableOpacity onPress={handleEmpty}>
+            <Text style={styles.button}>Vider mon panier</Text>
+          </TouchableOpacity>
         ) : null}
 
         {/* affichage ou non de la liste des produits dans le panier */}
@@ -109,10 +118,10 @@ function CartScreen() {
             );
             if (isThereProduct !== undefined) {
               return (
-                <View  key={cartItem.id} >
-                   <ProductCart  cartItem={cartItem}  /> 
+                <View key={cartItem.id}>
+                  <ProductCart cartItem={cartItem} />
                 </View>
-              );  
+              );
             } else {
               return null;
             }
@@ -138,13 +147,16 @@ function CartScreen() {
                 </View>
               </View>
               <View>
-                <TouchableOpacity  style={{marginTop: 20}} onPress={handleOrder} >
+                <TouchableOpacity
+                  style={{ marginTop: 20 }}
+                  onPress={handleOrder}
+                >
                   <Text style={styles.button}>Valider ma commande</Text>
                 </TouchableOpacity>
               </View>
             </View>
           ) : (
-            <Text>Votre panier est vide.</Text>
+            <Text style={{marginTop: 60}}>Votre panier est vide.</Text>
           )}
         </View>
       </View>
@@ -215,6 +227,15 @@ const styles = StyleSheet.create({
     textAlign: "right",
     color: "black",
     fontWeight: "bold",
+  },
+  btnCatalogue: {
+    width: "100%",
+    
+  },
+  btnCatalogueText: {
+    color: "#0D83AB",
+    textAlign: "center",
+    fontSize: 16,
   },
 });
 

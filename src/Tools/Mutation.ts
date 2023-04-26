@@ -12,6 +12,7 @@ export const CREATE_USER = gql`
     )
   }
 `;
+
 export const CREATE_ORDER = gql`
   mutation Mutation($userId: Float!, $reservations: [ReservationType!]!) {
     createOrder(userId: $userId, reservations: $reservations) {
