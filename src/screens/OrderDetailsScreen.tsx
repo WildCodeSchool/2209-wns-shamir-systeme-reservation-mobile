@@ -1,8 +1,6 @@
 import { useLazyQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import {
-  Image,
-  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,14 +9,12 @@ import {
 } from "react-native";//@ts-ignore
 import { GET_ORDER_BY_ID } from "../Tools/Query";
 import IOrder from "../interfaces/IOrder";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 import { RootState } from "../stores";
 import IReservation from "../interfaces/IReservation";
-import { formatDate } from "../Tools/utils";
+import { readableDate } from "../Tools/utils";
 import { Ionicons } from "@expo/vector-icons";
 import ReservationCard from "../components/ResevationCard";//@ts-ignore
-import loading from "../../assets/images/loading.gif";
 
 
 export default function OrderDetailsScreen({ navigation, route }: any) {
@@ -102,7 +98,7 @@ export default function OrderDetailsScreen({ navigation, route }: any) {
        <View style={styles.container}>
         <View>
           <Text style={styles.title}> 
-            Commande du {order && formatDate(order.created_at)}
+            Commande du {order && readableDate(order.created_at)}
           </Text>
           <View>
           <TouchableOpacity

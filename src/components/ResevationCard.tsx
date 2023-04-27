@@ -57,6 +57,7 @@ export default function ReservationCard({
 }
 const styles = StyleSheet.create({
   reservationCard: {
+    width: 320,
     margin: 10,
     paddingRight: 20,
     padding: 10,
