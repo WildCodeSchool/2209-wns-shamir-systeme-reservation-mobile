@@ -9,6 +9,7 @@ import { AuthContext } from '../context/AuthContext';
 import CustomButton from '../components/CustomButton';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const Register = () => {
     const {height} = useWindowDimensions();
@@ -60,38 +61,50 @@ const Register = () => {
                         <View>
                             <Text style={styles.label}>Nom</Text>
                         </View>
-                        <CustomInput label="Nom" size="250" control={control} name="lastname" placeholder="Nom" type="text" rules={{required: "Le nom est requis"}}/>
+                        <CustomInput label="Nom" size="300" control={control} name="lastname" type="text" rules={{required: "Le nom est requis"}}/>
                         <View>
                             <Text style={styles.label}>Prénom</Text>
                         </View>
-                        <CustomInput label="Prénom" size="250" control={control} name="firstname" placeholder="Prénom" type="text" rules={{required: "Le prénom est requis"}}/>
+                        <CustomInput label="Prénom" size="300" control={control} name="firstname" type="text" rules={{required: "Le prénom est requis"}}/>
                         <View>
                             <Text style={styles.label}>Téléphone</Text>
                         </View>
-                        <CustomInput label="Téléphone" size="250" control={control} name="phone" placeholder="Téléphone" type="number" rules={{required: "Le téléphone est requis", pattern: {value: /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/, message: "Le numéro n'est pas valide."}, maxLength: {value: 10, message: "Le numéro n'est pas valide"}}}/>
+                        <CustomInput label="Téléphone" size="300" control={control} name="phone" type="number" rules={{required: "Le téléphone est requis", pattern: {value: /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/, message: "Le numéro n'est pas valide."}, maxLength: {value: 10, message: "Le numéro n'est pas valide"}}}/>
                         <View>
                             <Text style={styles.label}>Email</Text>
                         </View>
-                        <CustomInput label="Email" size="250" control={control} name="email" placeholder="Email" type="text" rules={{required: "L'email est requis", pattern: {value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/, message: "Votre email n'est pas valide."}}}/>
+                        <CustomInput label="Email" size="300" control={control} name="email" type="text" rules={{required: "L'email est requis", pattern: {value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/, message: "Votre email n'est pas valide."}}}/>
                         <View>
                             <Text style={styles.label}>Mot de passe</Text>
                         </View>
-                        <CustomInput label="Mot de passe" size="250" control={control} name="password" placeholder="Mot de passe" type="password" rules={{required: "Le mot de passe est requis", minLength: {value: 5, message: "Le mot de passe doit contenir au minimum 5 caractères."}, pattern: {value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{5,}$/, message: "Le mot de passe doit contenir au minimum 5 caractères, minimum une lettre majuscule, une lettre minuscule, un chiffre et un caractere special"}}} secureTextEntry={true}/>
+                        <CustomInput label="Mot de passe" size="300" control={control} name="password" type="password" rules={{required: "Le mot de passe est requis", minLength: {value: 5, message: "Le mot de passe doit contenir au minimum 5 caractères."}, pattern: {value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{5,}$/, message: "Le mot de passe doit contenir au minimum 5 caractères, minimum une lettre majuscule, une lettre minuscule, un chiffre et un caractere special"}}} secureTextEntry={true}/>
                         <View>
                             <Text style={styles.label}>Confirmation du mot de passe</Text>
                         </View>
-                        <CustomInput label="Mot de passe" size="250" control={control} name="passwordConfirm" placeholder="Confirmation du mot de passe" type="password" rules={{required: "Le mot de passe est requis", minLength: {value: 5, message: "Le mot de passe doit contenir au minimum 5 caractères."}, pattern: {value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{5,}$/, message: "Le mot de passe doit contenir au minimum 5 caractères, minimum une lettre majuscule, une lettre minuscule, un chiffre et un caractere special"}}} secureTextEntry={true}/>
+                        <CustomInput label="Mot de passe" size="300" control={control} name="passwordConfirm" type="password" rules={{required: "Le mot de passe est requis", minLength: {value: 5, message: "Le mot de passe doit contenir au minimum 5 caractères."}, pattern: {value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{5,}$/, message: "Le mot de passe doit contenir au minimum 5 caractères, minimum une lettre majuscule, une lettre minuscule, un chiffre et un caractere special"}}} secureTextEntry={true}/>
 
                         {errorCreate ? <Text style={{color: 'red', width: 250}}>{errorCreate}</Text> : ''}
 
-                        <Text style={styles.rules}>J'accepte les <Text style={styles.rulesLink} onPress={onRulesPress}>
-                            conditions générales</Text> requises à l'inscription
-                        </Text>
+                        <BouncyCheckbox
+                            style={styles.bouncyCheckbox}
+                            isChecked={true}
+                            size={25}
+                            fillColor="#0D83AB"
+                            unfillColor="#FFFFFF"
+                            text={"J'accepte les conditions \n générales d'utilisation"}
+                            textStyle={{
+                                textDecorationLine: "none",
+                                textAlign: "start",
+                                fontSize: 14,
+                                color: "#FFFFFF",
+                              }}
+                            iconStyle={{ borderColor: "#0D83AB" }}
+                            innerIconStyle={{ borderWidth: 2 }}
+                        />
 
-                        <CustomButton size="250" text="Valider" onPress={handleSubmit(handleRegister)} type="WILD"/>
-                        <CustomButton size="250" text='Mot de passe oublié ?' onPress={onForgotPressed} type="TERTIARY" />
-
-                        <CustomButton size="250" text="J'ai déjà un compte" onPress={alreadyAccount} type="SECONDARY" />
+                        <CustomButton size="300" text="Valider" onPress={handleSubmit(handleRegister)} type="WILD"/>
+                        <CustomButton size="300" text='Mot de passe oublié ?' onPress={onForgotPressed} type="TERTIARY" />
+                        <CustomButton size="300" text="J'ai déjà un compte" onPress={alreadyAccount} type="SECONDARY" />
                     </View>
                 </View>
             </LinearGradient>
@@ -119,7 +132,7 @@ const styles = StyleSheet.create({
         fontSize: 16, 
     },
     title: {
-        marginVertical: 20,
+        marginTop: 10,
         paddingTop: 40,
         fontSize: 25,
         fontWeight: 'bold',
@@ -140,11 +153,11 @@ const styles = StyleSheet.create({
     },
     form:{
         flex: 1,
-        width: 250
+        width: 300
     },
     label: {
         color: '#fff',
-        fontSize: 18,
+        fontSize: 15,
         textAlign: 'left'
     },
   });

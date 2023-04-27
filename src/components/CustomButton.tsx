@@ -42,6 +42,12 @@ const styles = StyleSheet.create({
     btn_WILD: {
         backgroundColor: '#30bcef',
         color: '#fff',
+        overflow: 'hidden',
+        elevation: 6,
+        shadowColor: '#bcbcbc',
+        shadowOffset: {width: 2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     },
     btn_TERTIARY: {
         backgroundColor: '#f3f6f4',
@@ -64,6 +70,12 @@ const styles = StyleSheet.create({
     btn_SECONDARY: {
         backgroundColor: '#999999',
         color: '#fff',
+        overflow: 'hidden',
+        elevation: 6,
+        shadowColor: '#bcbcbc',
+        shadowOffset: {width: 2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     },
     btn_LIGHT: {
         backgroundColor: 'transparent',

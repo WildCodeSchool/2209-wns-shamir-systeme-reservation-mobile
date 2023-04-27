@@ -3,7 +3,6 @@ import * as SecureStore from "expo-secure-store";
 import {
   Alert,
   Image,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -21,7 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLazyQuery } from "@apollo/client";
 import { GET_ORDER_BY_CUSTOMER } from "../Tools/Query";
 import { setOrders } from "../stores/userReducer";
-import { formatDate } from "../Tools/utils";
+import { readableDate } from "../Tools/utils";
 
 export default function ProfileScreen({ navigation }: any) {
   const { width, height } = useWindowDimensions();
@@ -133,7 +132,7 @@ export default function ProfileScreen({ navigation }: any) {
             <View  >
               <Text style={styles.textOrder}>Commande N° {order.id}</Text>
               <Text style={styles.textArticle}>Prix : {order.total_price}€</Text>
-              <Text style={styles.date}>{formatDate(order.created_at)}</Text>
+              <Text style={styles.date}>{readableDate(order.created_at)}</Text>
               <View  style={styles.btnOrder}>
                 <Ionicons
                   name="eye-outline"

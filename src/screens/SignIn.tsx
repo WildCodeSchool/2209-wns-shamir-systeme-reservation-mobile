@@ -1,4 +1,6 @@
+//@ts-ignore
 import Logo from '../../assets/images/512.png';
+//@ts-ignore
 import home from "../../assets/images/home.jpg";
 import { View, Text, useWindowDimensions, ScrollView, ImageBackground, StyleSheet, ActivityIndicator} from 'react-native'
 import React, { useContext, useEffect } from 'react'
@@ -69,11 +71,11 @@ const SignIn = () => {
         },
         form:{
             flex: 1,
-            width: 250
+            width: 300
         },
         label: {
             color: '#fff',
-            fontSize: 18,
+            fontSize: 15,
             textAlign: 'left'
         },
     });
@@ -89,18 +91,18 @@ const SignIn = () => {
                         <View>
                             <Text style={styles.label}>Email</Text>
                         </View>
-                        <CustomInput label="Email" size="250" control={control} name="email" placeholder="Email" type="text" rules={{required: "L'email est requis", pattern: {value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/, message: "Votre email n'est pas valide."}}}/>
+                        <CustomInput label="Email" size="300" control={control} name="email" type="text" rules={{required: "L'email est requis", pattern: {value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/, message: "Votre email n'est pas valide."}}}/>
                         <View>
                             <Text style={styles.label}>Mot de passe</Text>
                         </View>
-                        <CustomInput label="Mot de passe" size="250" control={control} name="password" placeholder="Mot de passe" type="text" rules={{required: "Le mot de passe est requis"}} secureTextEntry={true}/>
+                        <CustomInput label="Mot de passe" size="300" control={control} name="password" type="text" rules={{required: "Le mot de passe est requis"}} secureTextEntry={true}/>
 
-                        {errorCreate ? <Text style={{color: 'red', width: 250}}>{errorCreate}</Text> : ''}
+                        {errorCreate ? <Text style={{color: 'red', width: 300}}>{errorCreate}</Text> : ''}
 
-                        <CustomButton size="250" text="Valider" onPress={handleSubmit(handleToken)} type="WILD"/>
-                        <CustomButton size="250" text='Mot de passe oublié ?' onPress={onForgotPressed} type="TERTIARY" />
+                        <CustomButton size="300" text="Valider" onPress={handleSubmit(handleToken)} type="WILD"/>
+                        <CustomButton size="300" text='Mot de passe oublié ?' onPress={onForgotPressed} type="TERTIARY" />
 
-                        <CustomButton size="250" text="Je n'ai pas de compte" onPress={dontAccount} type="SECONDARY" />
+                        <CustomButton size="300" text="Je n'ai pas de compte" onPress={dontAccount} type="SECONDARY" />
                     </View>
                 </View>
             </LinearGradient>
