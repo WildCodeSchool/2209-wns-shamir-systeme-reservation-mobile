@@ -1,6 +1,6 @@
 import Logo from '../../assets/images/512.png';
 import home from "../../assets/images/home.jpg";
-import { View, Text, useWindowDimensions, ScrollView, ImageBackground, Image, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { View, Text, useWindowDimensions, ScrollView, ImageBackground, StyleSheet, ActivityIndicator} from 'react-native'
 import React, { useContext, useEffect } from 'react'
 import { AuthContext } from '../context/AuthContext';
 import { useForm } from "react-hook-form";
@@ -36,8 +36,49 @@ const SignIn = () => {
         navigation.navigate('Register');
     }
 
+    const styles = StyleSheet.create({
+        root: {
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingBottom: 40,
+            paddingTop: 80,
+        },
+        background: {
+            height: height
+        },
+        title: {
+            marginVertical: 20,
+            paddingTop: 20,
+            fontSize: 25,
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            color: '#fff'
+        },
+        image: {
+            flex: 1,
+            justifyContent: 'center',
+          },
+        rules: {
+            paddingHorizontal: 30,
+            paddingVertical: 30,
+            color: '#fff'
+        },
+        rulesLink: {
+            textDecorationLine: 'underline',
+        },
+        form:{
+            flex: 1,
+            width: 250
+        },
+        label: {
+            color: '#fff',
+            fontSize: 18,
+            textAlign: 'left'
+        },
+    });
+
   return (
-    <ScrollView>
         <ImageBackground source={home} resizeMode="cover" style={styles.image}>
             <LinearGradient colors={['transparent', '#0d81ab']} style={styles.background}>
                 <View style={styles.root} >
@@ -64,46 +105,9 @@ const SignIn = () => {
                 </View>
             </LinearGradient>
         </ImageBackground>
-    </ScrollView>
   )
+
 }
 
-const styles = StyleSheet.create({
-    root: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingBottom: 40,
-    },
-    title: {
-        marginVertical: 20,
-        paddingTop: 20,
-        fontSize: 25,
-        fontWeight: 'bold',
-        textTransform: 'uppercase',
-        color: '#fff'
-    },
-    image: {
-        flex: 1,
-        justifyContent: 'center',
-      },
-    rules: {
-        paddingHorizontal: 30,
-        paddingVertical: 30,
-        color: '#fff'
-    },
-    rulesLink: {
-        textDecorationLine: 'underline',
-    },
-    form:{
-        flex: 1,
-        width: 250
-    },
-    label: {
-        color: '#fff',
-        fontSize: 18,
-        textAlign: 'left'
-    },
-  });
 
 export default SignIn
