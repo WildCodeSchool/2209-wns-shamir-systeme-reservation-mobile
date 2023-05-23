@@ -15,15 +15,19 @@ export const CREATE_USER = gql`
 
 export const CREATE_ORDER = gql`
   mutation Mutation($userId: Float!, $reservations: [ReservationType!]!) {
-    createOrder(userId: $userId, reservations: $reservations) {
-      id
-      created_at
-      status
-      total_price
-      user {
-        email
-        id
-      }
-    }
+    createOrder(userId: $userId, reservations: $reservations)
+  }
+`;
+
+export const DELETE_ORDER = gql`
+  mutation Mutation($orderId: Float!) {
+    deleteOrder(orderId: $orderId)
+  }
+`;
+
+export const VALIDATE_ORDER = gql`
+  mutation Mutation($orderId: Float!) {
+    validateOrder(orderId: $orderId)
+  
   }
 `;

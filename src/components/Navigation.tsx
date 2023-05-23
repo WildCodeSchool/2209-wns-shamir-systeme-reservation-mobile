@@ -17,8 +17,9 @@ import { useLazyQuery } from '@apollo/client';
 import { setUser } from '../stores/userReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CartScreen from '../screens/CartScreen';
-import OrderDetails from '../screens/OrderDetails';
 import OrderDetailsScreen from '../screens/OrderDetailsScreen';
+import OrderConfirmScreen from '../screens/OrderConfirmScreen';
+import PaymentScreen from '../screens/PaymentScreen';
 
 const TabBottom = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -63,7 +64,7 @@ const CustomNavigation = () => {
                 headerShown: false,
                 tabBarStyle: {
                     backgroundColor: "#fff",
-                    height: 60,
+                    height: 80,
                 },
                 tabBarItemStyle: {
                     backgroundColor: "#fff",
@@ -76,7 +77,7 @@ const CustomNavigation = () => {
                     iconName = focused ? "home" : "home-outline";
                 } else if (route.name === "Catalogue") {
                     iconName = focused ? "list" : "list-outline";
-                } else if (route.name === "Profile") {
+                } else if (route.name === "Profil") {
                     iconName = focused ? "person-circle" : "person-circle-outline";
                 } else if (route.name === "SignIn") {
                     iconName = focused ? "log-in" : "log-in-outline";
@@ -89,7 +90,7 @@ const CustomNavigation = () => {
             })}>
                 <TabBottom.Screen name="Accueil" component={HomeScreen} />
                 <TabBottom.Screen name="Catalogue" component={CatalogScreen} />
-                {token || tokenOfAsyncStore ? <TabBottom.Screen name="Profile" component={ProfileScreen}/>
+                {token || tokenOfAsyncStore ? <TabBottom.Screen name="Profil" component={ProfileScreen}/>
                 : <TabBottom.Screen name="SignIn" component={SignIn}/>}
             </TabBottom.Navigator>
     )
@@ -110,6 +111,8 @@ const Navigation = () => {
                     <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
                     <Stack.Screen name="Cart" component={CartScreen} options={{ headerShown: false }}/>
                     <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} options={{ headerShown: false }}/>
+                    <Stack.Screen name="OrderConfirm" component={OrderConfirmScreen} options={{ headerShown: false }}/>
+                    <Stack.Screen name="Payment" component={PaymentScreen} options={{ headerShown: false }}/>
                 </Stack.Group>
             </Stack.Navigator>
         </AuthProvider>
