@@ -22,6 +22,7 @@
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/native-stack": "^6.9.9",
     "@reduxjs/toolkit": "^1.9.2",
+    "@stripe/stripe-react-native": "^0.27.0",
     "@types/react-native": "^0.71.1",
     "expo": "~47.0.12",
     "expo-linear-gradient": "~12.0.1",
@@ -32,7 +33,6 @@
     "react-hook-form": "^7.42.1",
     "react-native": "0.70.5",
     "react-native-bouncy-checkbox": "^3.0.6",
-    "react-native-dotenv": "^3.4.7",
     "react-native-fast-image": "^8.6.3",
     "react-native-flash-message": "^0.4.0",
     "react-native-modal-datetime-picker": "^14.0.1",
@@ -46,6 +46,7 @@
     "@babel/core": "^7.12.9",
     "@tsconfig/react-native": "^2.0.3",
     "@types/jest": "^29.4.0",
+    "@types/node": "^20.2.3",
     "@types/react": "^18.0.27",
     "@types/react-test-renderer": "^18.0.0",
     "typescript": "^4.9.5"

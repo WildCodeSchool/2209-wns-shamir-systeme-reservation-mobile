@@ -14,6 +14,7 @@ import { setProductsByDate } from "../stores/productReducer";
 import IProduct from "../interfaces/IProduct";
 import { resetFilter } from "../stores/filterReducer";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function CartScreen() {
   const productsStore = useSelector(
@@ -66,20 +67,15 @@ function CartScreen() {
     );*/
 
     try {
-      await createOrder({
-        variables: {
-          userId: userStore.id,
-          reservations: reservations,
-        },
-      });
+      if (!await AsyncStorage.getItem("orderToConfirm")) {
+        const result = await createOrder({ variables: {userId: userStore.id, reservations: reservations}})
+        await AsyncStorage.setItem("orderIdToConfirm", result.data.createOrder.toString());
+      }
+      navigation.navigate("OrderConfirm", { screen: "OrderConfirmScreen" })
+      
     } catch (error) {
       console.log(error);
     }
-    dispatch(reset());
-    dispatch(setProductsByDate([]));
-    dispatch(resetFilter());
-    //@ts-ignore
-    navigation.navigate("Profile", { screen: "Profile" });
   };
 
   // permet de vider le panier

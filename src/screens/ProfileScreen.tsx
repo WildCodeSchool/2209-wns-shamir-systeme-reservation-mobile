@@ -31,14 +31,6 @@ export default function ProfileScreen({ navigation }: any) {
 
   const dispatch = useDispatch();
 
-  
-  
-  const onPress = () => {
-    Alert.alert("Bien Joué !", "Juste pour voir si ça fonctionné", [
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
-  };
-
   useEffect(() => {
     
     if (token) {

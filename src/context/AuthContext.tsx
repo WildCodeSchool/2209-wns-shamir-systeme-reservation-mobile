@@ -32,8 +32,6 @@ export const AuthProvider = ({ children }: any) => {
   const handleToken = (data: ISigninProps): void => {
     getToken({ variables: { password: data.password, email: data.email } })
       .then(async ({ data }) => {
-        console.log(data);
-        
         await AsyncStorage.setItem("token", data.getToken);
         dispatch(setToken(data.getToken));
         setLogged(true);

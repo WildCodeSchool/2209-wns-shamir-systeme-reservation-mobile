@@ -9,7 +9,8 @@
     },
     "types": [
       "react-native",
-      "jest"
+      "jest",
+      "node"
     ],
     "lib": [
       "dom",
