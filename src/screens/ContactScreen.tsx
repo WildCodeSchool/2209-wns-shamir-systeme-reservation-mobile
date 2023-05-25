@@ -5,7 +5,7 @@ import { StyleSheet, View, TextInput, Text, TouchableOpacity, ImageBackground, u
 import ModalDropdown from 'react-native-modal-dropdown';
 //@ts-ignore
 import home from "../../assets/images/home.jpg";
-import { LinearGradient } from 'expo-linear-gradient'; //@ts-ignore
+import { LinearGradient } from 'expo-linear-gradient';
 import FlashMessage, { showMessage } from "react-native-flash-message";
 
 
