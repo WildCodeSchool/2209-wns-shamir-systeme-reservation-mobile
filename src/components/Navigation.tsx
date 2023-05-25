@@ -17,8 +17,8 @@ import { useLazyQuery } from '@apollo/client';
 import { setUser } from '../stores/userReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CartScreen from '../screens/CartScreen';
-import OrderDetails from '../screens/OrderDetails';
 import OrderDetailsScreen from '../screens/OrderDetailsScreen';
+import ContactScreen from '../screens/ContactScreen';
 
 const TabBottom = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -78,6 +78,8 @@ const CustomNavigation = () => {
                     iconName = focused ? "list" : "list-outline";
                 } else if (route.name === "Profile") {
                     iconName = focused ? "person-circle" : "person-circle-outline";
+                } else if (route.name === "Contact") {
+                    iconName = focused ? "mail" : "mail-outline";
                 } else if (route.name === "SignIn") {
                     iconName = focused ? "log-in" : "log-in-outline";
                 }
@@ -89,6 +91,7 @@ const CustomNavigation = () => {
             })}>
                 <TabBottom.Screen name="Accueil" component={HomeScreen} />
                 <TabBottom.Screen name="Catalogue" component={CatalogScreen} />
+                <TabBottom.Screen name="Contact" component={ContactScreen} />
                 {token || tokenOfAsyncStore ? <TabBottom.Screen name="Profile" component={ProfileScreen}/>
                 : <TabBottom.Screen name="SignIn" component={SignIn}/>}
             </TabBottom.Navigator>

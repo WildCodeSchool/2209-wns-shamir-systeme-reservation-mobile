@@ -27,3 +27,9 @@ export const CREATE_ORDER = gql`
     }
   }
 `;
+
+export const MAKING_CONTACT = gql`
+  mutation Mutation($name: String!, $email: String!, $subject: String!, $message: String!) {
+    makingContact(name: $name, email: $email, subject: $subject, message: $message)
+  }
+`;

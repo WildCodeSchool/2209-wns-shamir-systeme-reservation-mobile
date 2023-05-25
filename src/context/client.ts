@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // const {manifest} = Constants;
 
 const httpLink = createHttpLink({
-  uri: "http://192.168.1.3:5000",
+  uri: "http://192.168.0.14:5000",
 });
 
 // Middleware pour intercepter

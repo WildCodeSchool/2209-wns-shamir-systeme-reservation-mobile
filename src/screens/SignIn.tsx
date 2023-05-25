@@ -11,10 +11,12 @@ import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { StackNavigationProp } from "@react-navigation/stack";
+export type StackNavigation = StackNavigationProp<StackParamList>;
 
 const SignIn = () => {
     const {height} = useWindowDimensions();
-    const navigation = useNavigation();
+    const navigation = useNavigation<StackNavigation>();
 
     //function register in AuthContext
     const {handleToken, setErrorCreate, errorCreate, sizeSpin, animateSpin, styleSpin} = useContext(AuthContext);
@@ -31,11 +33,6 @@ const SignIn = () => {
 
     const onForgotPressed = () => {
         console.log("Mot de passe oublié");
-    }
-
-    const dontAccount = () => {
-        console.log("Pas de compte");
-        navigation.navigate('Register');
     }
 
     const styles = StyleSheet.create({
@@ -102,7 +99,7 @@ const SignIn = () => {
                         <CustomButton size="300" text="Valider" onPress={handleSubmit(handleToken)} type="WILD"/>
                         <CustomButton size="300" text='Mot de passe oublié ?' onPress={onForgotPressed} type="TERTIARY" />
 
-                        <CustomButton size="300" text="Je n'ai pas de compte" onPress={dontAccount} type="SECONDARY" />
+                        <CustomButton size="300" text="Je n'ai pas de compte" onPress={() => navigation.navigate('Register')} type="SECONDARY" />
                     </View>
                 </View>
             </LinearGradient>
