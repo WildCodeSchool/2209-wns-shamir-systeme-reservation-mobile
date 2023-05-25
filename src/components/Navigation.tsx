@@ -20,6 +20,7 @@ import CartScreen from '../screens/CartScreen';
 import OrderDetailsScreen from '../screens/OrderDetailsScreen';
 import OrderConfirmScreen from '../screens/OrderConfirmScreen';
 import PaymentScreen from '../screens/PaymentScreen';
+import ContactScreen from '../screens/ContactScreen';
 
 const TabBottom = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -79,6 +80,8 @@ const CustomNavigation = () => {
                     iconName = focused ? "list" : "list-outline";
                 } else if (route.name === "Profil") {
                     iconName = focused ? "person-circle" : "person-circle-outline";
+                } else if (route.name === "Contact") {
+                    iconName = focused ? "mail" : "mail-outline";
                 } else if (route.name === "SignIn") {
                     iconName = focused ? "log-in" : "log-in-outline";
                 }
@@ -92,6 +95,7 @@ const CustomNavigation = () => {
                 <TabBottom.Screen name="Catalogue" component={CatalogScreen} />
                 {token || tokenOfAsyncStore ? <TabBottom.Screen name="Profil" component={ProfileScreen}/>
                 : <TabBottom.Screen name="SignIn" component={SignIn}/>}
+                <TabBottom.Screen name="Contact" component={ContactScreen} />
             </TabBottom.Navigator>
     )
 }

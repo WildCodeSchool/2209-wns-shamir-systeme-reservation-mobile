@@ -3,7 +3,7 @@ import { setContext } from "@apollo/client/link/context";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const httpLink = createHttpLink({
-  uri: process.env.API_URL,
+  uri: "http://192.168.0.14:5000",
 });
 
 // Middleware pour intercepter
