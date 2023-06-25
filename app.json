@@ -31,6 +31,15 @@
     },
     "web": {
       "favicon": "./assets/favicon1.png"
-    }
+    },
+    "plugins": [
+			[
+				"@stripe/stripe-react-native",
+				{
+					"merchantIdentifier": "WildBooking",
+					"enableGooglePay": false
+				}
+			]
+		]
   }
 }
