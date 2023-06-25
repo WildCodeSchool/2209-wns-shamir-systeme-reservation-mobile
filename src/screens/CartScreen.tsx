@@ -62,10 +62,6 @@ function CartScreen() {
   });
   // action de création de la commande puis on vide le panier
   const handleOrder = async () => {
-    /*  const acceptCGV = window.confirm(
-      "Acceptez-vous les conditions générales de vente ?"
-    );*/
-
     try {
       if (!await AsyncStorage.getItem("orderToConfirm")) {
         const result = await createOrder({ variables: {userId: userStore.id, reservations: reservations}})
