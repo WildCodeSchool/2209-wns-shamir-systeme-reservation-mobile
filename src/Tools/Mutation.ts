@@ -37,3 +37,15 @@ export const MAKING_CONTACT = gql`
     makingContact(name: $name, email: $email, subject: $subject, message: $message)
   }
 `;
+
+export const PAYMENT_SHEET = gql`
+  mutation paymentSheetMobile($totalAmount: Float!) {
+    paymentSheetMobile(totalAmount: $totalAmount) {
+      customer
+      ephemeralKeySecret
+      paymentIntentId
+      publishableKey
+    }
+  }
+`;
+

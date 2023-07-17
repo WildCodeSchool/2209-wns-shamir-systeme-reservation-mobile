@@ -19,7 +19,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import CartScreen from '../screens/CartScreen';
 import OrderDetailsScreen from '../screens/OrderDetailsScreen';
 import OrderConfirmScreen from '../screens/OrderConfirmScreen';
-import PaymentScreen from '../screens/PaymentScreen';
 import ContactScreen from '../screens/ContactScreen';
 
 const TabBottom = createBottomTabNavigator();
@@ -116,7 +115,6 @@ const Navigation = () => {
                     <Stack.Screen name="Cart" component={CartScreen} options={{ headerShown: false }}/>
                     <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} options={{ headerShown: false }}/>
                     <Stack.Screen name="OrderConfirm" component={OrderConfirmScreen} options={{ headerShown: false }}/>
-                    <Stack.Screen name="Payment" component={PaymentScreen} options={{ headerShown: false }}/>
                 </Stack.Group>
             </Stack.Navigator>
         </AuthProvider>
