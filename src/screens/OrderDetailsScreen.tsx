@@ -29,7 +29,8 @@ export default function OrderDetailsScreen({ navigation, route }: any) {
   const handleGetOrderById = (orderId: number | undefined, userId: number | undefined) => {
     getOrderById({ variables: { orderId, userId } })
       .then(({ data }) => {
-        setOrder(data.getOrderById[0]);
+        console.log(data)
+        setOrder(data.getOrderById);
       })
       .catch((error) => {
         console.log(error);
